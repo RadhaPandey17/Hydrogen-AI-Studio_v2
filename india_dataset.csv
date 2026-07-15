@@ -1,0 +1,228 @@
+Paper_Citation,Location,Latitude,Longitude,Production_Pathway,Power_Source,Electrolyzer_Capacity_MW,Capacity_Factor_Percent,Water_Liters_per_kg,LCA_GWP_kg_CO2_eq_per_kg_H2,Hydrogen_Output_kg_day,Hydrogen_Output_log
+"Patidar, Yadav, and Mallya (2024)",India,22.3511148,78.6677428,"Green Hydrogen (Alkaline, PEM, and SOE electrolysis)",Renewable energy (wind and solar power),69761.542,45.0,15.5,2.15,13698630.136986302,16.432806468798017
+NTPC Limited (2025),"Leh, Ladakh, India",34.1642029,77.5848133,advanced alkaline electrolyser system,clean solar power,0.788,22.0,15.5,2.996,80.0,4.394449154672439
+Mishra et al. (2024),"Tamil Nadu (Zone B1), India",11.3323723,78.6098639,Green hydrogen production via electrolysis (PEM and Pressurized Alkaline),Offshore Wind,1174.748,38.0,15.5,1.16,194794.5205479452,12.179705674792428
+Mishra et al. (2024),"Gujarat (Zone B1), India",22.3850051,71.745261,Green hydrogen production via electrolysis (PEM and Pressurized Alkaline),Offshore Wind,6.031,38.0,15.5,1.16,1000.0,6.90875477931522
+Mishra et al. (2024),India (Offshore),22.3511148,78.6677428,Green Hydrogen from Offshore Wind,Offshore Wind,30.504,38.0,12.0,1.124,5350.0,8.585038738311304
+PwC (2024),"Uttar Pradesh, India",27.1303344,80.859666,Electrolysis (PEM and Alkaline),Renewable energy (Solar microgrid),553.646,22.0,15.5,3.14,53150.0,10.880892198268548
+PwC (2024),"Tamil Nadu, India",11.3323723,78.6098639,Electrolysis (PEM and Alkaline),Renewable energy (Solar microgrid),553.646,22.0,15.5,3.14,53150.0,10.880892198268548
+PwC (2024),"Uttar Pradesh, India",27.1303344,80.859666,Electrolysis (PEM and Alkaline),Renewable energy (Solar microgrid),520.833,22.0,15.5,3.14,50000.0,10.819798284210286
+PwC (2024),"Tamil Nadu, India",11.3323723,78.6098639,Electrolysis (PEM and Alkaline),Renewable energy (Solar microgrid),520.833,22.0,15.5,3.14,50000.0,10.819798284210286
+"Das & Mallick, 2026",India,22.3511148,78.6677428,Green Hydrogen (GH2),Solar,134910.751,22.0,12.0,2.996,13698630.136986302,16.432806468798017
+"Das & Mallick, 2026",India,22.3511148,78.6677428,Water electrolysis,Solar,9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Das & Mallick, 2026",India,22.3511148,78.6677428,Water electrolysis,Grid electricity,2.889,75.0,15.5,37.42,1000.0,6.90875477931522
+"Das & Mallick, 2026",India,22.3511148,78.6677428,PEMFC–Solar H₂,Solar,10.417,22.0,15.5,3.14,1000.0,6.90875477931522
+"Das & Mallick, 2026",India,22.3511148,78.6677428,PEMFC–Grid H₂,Grid electricity,3.056,75.0,15.5,39.55,1000.0,6.90875477931522
+"Das & Mallick, 2026",India,22.3511148,78.6677428,SOFC–Solar H₂,Solar,9.848,22.0,12.0,2.996,1000.0,6.90875477931522
+"Das & Mallick, 2026",India,22.3511148,78.6677428,SOFC–Grid H₂,Grid electricity,2.889,75.0,12.0,37.42,1000.0,6.90875477931522
+"Mukherjee et al., 2026",India,22.3511148,78.6677428,Steam methane reforming (SMR),Natural gas,2.407,90.0,4.5,11.5,1000.0,6.90875477931522
+"Mukherjee et al., 2026",India,22.3511148,78.6677428,SMR + ATR,Natural gas,2.407,90.0,4.5,11.5,1000.0,6.90875477931522
+"Mukherjee et al., 2026",India,22.3511148,78.6677428,SMR/air,Natural gas,2.407,90.0,4.5,11.5,1000.0,6.90875477931522
+"Mukherjee et al., 2026","Bikaner, Rajasthan, India",28.0159286,73.3171367,Alkaline Water Electrolyzer (AWE),Solar photovoltaic (PV),9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Reznicek et al., 2025",Indiana,40.3270127,-86.1746933,Off-grid electrolysis,Wind + Solar,4.815,45.0,15.5,2.06,1000.0,6.90875477931522
+"Reznicek et al., 2025",Indiana,40.3270127,-86.1746933,Hybrid-grid electrolysis,Grid + Wind,5.702,38.0,15.5,1.124,1000.0,6.90875477931522
+"ICF, 2024",India,22.3511148,78.6677428,Green Hydrogen,Renewable energy,59360.731,50.0,12.0,2.0,13698630.136986302,16.432806468798017
+"ICF, 2024",India,22.3511148,78.6677428,Grey Hydrogen,Fossil fuel-derived,4.333,50.0,12.0,3.1,1000.0,6.90875477931522
+"ICF, 2024",India,22.3511148,78.6677428,Green Hydrogen,Electrolysis,4.333,50.0,12.0,3.1,1000.0,6.90875477931522
+"ICF, 2024",India,22.3511148,78.6677428,Green Hydrogen,Biomass conversion,4.333,50.0,12.0,3.1,1000.0,6.90875477931522
+"GIZ, 2024","Khavda, Gujarat, India",23.8244987,69.7298378,Electrolytic Hydrogen Production (PEM),Variable Renewable Energy (VRE),759.088,50.0,15.5,3.25,165619.1780821918,12.017452361832806
+"GIZ, 2024","Khavda, Gujarat, India",23.8244987,69.7298378,Electrolytic Hydrogen Production (Alkaline),Variable Renewable Energy (VRE),717.683,50.0,15.5,3.1,165619.1780821918,12.017452361832806
+"GIZ, 2024","Khavda, Gujarat, India",23.8244987,69.7298378,Electrolytic Hydrogen Production (Combination PEM and Alkaline),Variable Renewable Energy (VRE),759.088,50.0,15.5,3.25,165619.1780821918,12.017452361832806
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,RE,0.059,50.0,12.0,3.1,13.6986301369863,2.687754301482307
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,RE,356164.384,50.0,12.0,3.1,82191780.8219178,18.22456587719274
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Solar,26.523,22.0,12.0,2.996,2693.150684931507,7.898838288936714
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind,2.406,38.0,12.0,1.124,421.9178082191781,6.0471778533558105
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),1.042,45.0,12.0,2.06,216.43835616438355,5.38191539042385
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),1.055,45.0,12.0,2.06,219.1780821917808,5.39443668342075
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.739,45.0,12.0,2.06,153.42465753424656,5.03970632389614
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.528,45.0,12.0,2.06,109.5890410958904,4.705820998246624
+"Mallya et al., 2024",Gujarat,22.3850051,71.745261,Green Hydrogen,Wind-Solar Hybrid (WSH),0.116,45.0,12.0,2.06,24.10958904109589,3.223249806691314
+"Mallya et al., 2024",Karnataka,14.9562045,75.7896741,Green Hydrogen,Wind-Solar Hybrid (WSH),0.066,45.0,12.0,2.06,13.6986301369863,2.687754301482307
+"Mallya et al., 2024",Maharashtra,19.5670323,76.4164557,Green Hydrogen,Wind-Solar Hybrid (WSH),0.066,45.0,12.0,2.06,13.6986301369863,2.687754301482307
+"Mallya et al., 2024",Rajasthan,26.8105777,73.7684549,Green Hydrogen,Wind-Solar Hybrid (WSH),0.158,45.0,12.0,2.06,32.87671232876713,3.5227278263730253
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind,0.344,38.0,12.0,1.124,60.273972602739725,4.115355162284457
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Solar,4.741,22.0,12.0,2.996,481.36986301369865,6.178711170438443
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.018,45.0,12.0,2.06,3.835616438356164,1.5760086157849056
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.212,45.0,12.0,2.06,44.10958904109589,3.809094841227973
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.72,45.0,12.0,2.06,149.58904109589042,5.014554544430473
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.183,45.0,12.0,2.06,38.08219178082192,3.665666910065109
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.278,45.0,12.0,2.06,57.80821917808219,4.07428162707617
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.766,45.0,12.0,2.06,159.17808219178082,5.076286209991928
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.092,45.0,12.0,2.06,19.17808219178082,3.004596975314239
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.186,45.0,12.0,2.06,38.63013698630137,3.679589863827744
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.14,45.0,12.0,2.06,29.04109589041096,3.402566307269497
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.046,45.0,12.0,2.06,9.58904109589041,2.3598196074390305
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind-Solar Hybrid (WSH),0.033,45.0,12.0,2.06,6.849315068493151,2.0604262755663485
+"Mallya et al., 2024",Tamil Nadu,11.3323723,78.6098639,Green Hydrogen,Wind,14.254,38.0,12.0,1.124,2500.0,7.824445930877619
+"Mallya et al., 2024",Gujarat,22.3850051,71.745261,Green Hydrogen,Wind,5.702,38.0,12.0,1.124,1000.0,6.90875477931522
+"Mallya et al., 2024",Karnataka,14.9562045,75.7896741,Green Hydrogen,Wind,5.702,38.0,12.0,1.124,1000.0,6.90875477931522
+"Mallya et al., 2024",Maharashtra,19.5670323,76.4164557,Green Hydrogen,Wind,6.842,38.0,12.0,1.124,1200.0,7.090909822079984
+"VOCPA, 2026","Tuticorin, Tamil Nadu, India",8.8457035,77.9938178,Green Hydrogen Electrolyzers (PEM),RE power,2.75,50.0,15.5,3.25,600.0,6.398594934535208
+"VOCPA, 2026","Tuticorin, Tamil Nadu, India",8.8457035,77.9938178,Green Hydrogen Electrolyzers (PEM),RE power,3.3,50.0,15.5,3.25,720.0,6.580639137284949
+"VOCPA, 2026","Tuticorin, Tamil Nadu, India",8.8457035,77.9938178,1 MW Electrolyser plant with BOP,RE power,0.001,50.0,12.0,3.1,0.3,0.262364264467491
+"Pradhan et al., 2024",India,22.3511148,78.6677428,Green hydrogen (GH2),RE,59360.731,50.0,12.0,3.1,13698630.136986302,16.432806468798017
+"Pradhan et al., 2024",Gujarat,22.3850051,71.745261,Green hydrogen,RE,9.1,50.0,12.0,3.1,2100.0,7.650168700845001
+"Pradhan et al., 2024",Tamil Nadu,11.3323723,78.6098639,Green hydrogen,RE,4.767,50.0,12.0,3.1,1100.0,7.00397413672268
+"Pradhan et al., 2024",Maharashtra,19.5670323,76.4164557,Green hydrogen,RE,1.733,50.0,12.0,3.1,400.0,5.993961427306569
+"Pradhan et al., 2024",Andhra Pradesh,15.9240905,80.1863809,Green hydrogen,RE,1.733,50.0,12.0,3.1,400.0,5.993961427306569
+"Pradhan et al., 2024",Uttar Pradesh,27.1303344,80.859666,Green hydrogen,RE,0.867,50.0,12.0,3.1,200.0,5.303304908059076
+"Pradhan et al., 2024",Odisha,20.5431241,84.6897321,Green hydrogen,RE,0.867,50.0,12.0,3.1,200.0,5.303304908059076
+"Pradhan et al., 2024",Kerala,10.3528744,76.5120396,Green hydrogen,RE,0.433,50.0,12.0,3.1,100.0,4.61512051684126
+"Pradhan et al., 2024",Rajasthan,26.8105777,73.7684549,Green hydrogen,RE,0.433,50.0,12.0,3.1,100.0,4.61512051684126
+"Pradhan et al., 2024",Madhya Pradesh,23.8143419,77.5340719,Green hydrogen,RE,0.433,50.0,12.0,3.1,100.0,4.61512051684126
+"Pradhan et al., 2024",Haryana,29.0,76.0,Green hydrogen,RE,0.217,50.0,12.0,3.1,50.0,3.9318256327243257
+"Pradhan et al., 2024",Punjab,30.9293211,75.5004841,Green hydrogen,RE,0.217,50.0,12.0,3.1,50.0,3.9318256327243257
+"Pradhan et al., 2024",Karnataka,14.9562045,75.7896741,Green hydrogen,RE,0.217,50.0,12.0,3.1,50.0,3.9318256327243257
+"Manna et al., 2021","Barauni, Bihar",25.4314544,86.0283753,SMR,Naphtha,234.0,50.0,4.5,9.0,54000.0,10.896757843893464
+"Manna et al., 2021","Koyali, Gujarat",22.7490305,70.6108446,SMR,NG + Naphtha,526.5,50.0,4.5,9.0,121500.0,11.707677772181546
+"Manna et al., 2021","Haldia, West Bengal",22.028124,88.0632655,SMR,Naphtha,455.0,50.0,4.5,9.0,105000.0,11.561725152903833
+"Manna et al., 2021","Mathura, Uttar Pradesh",27.4955539,77.6855554,SMR,NG + Naphtha,407.333,50.0,4.5,9.0,94000.0,11.451060699493429
+"Manna et al., 2021","Panipat, Haryana",29.3912753,76.9771675,SMR,NG + Naphtha,962.0,50.0,4.5,9.0,222000.0,12.310437165348777
+"Manna et al., 2021","Guwahati, Assam",26.1805978,91.753943,SMR,Naphtha,52.0,50.0,4.5,9.0,12000.0,9.39274525863144
+"Manna et al., 2021","Digboi, Assam",27.3956145,95.614868,SMR,NG + Naphtha,30.333,50.0,4.5,9.0,7000.0,8.853808274977197
+"Manna et al., 2021","Bongaigaon, Assam",26.4800126,90.5580387,SMR,Naphtha,130.0,50.0,4.5,9.0,30000.0,10.308985993422082
+"Manna et al., 2021","Paradip, Odisha",20.286946,86.6739979,SMR,Naphtha,315.467,50.0,4.5,9.0,72800.0,11.195484970354173
+"Manna et al., 2021","Mumbai, Maharashtra (HPCL)",19.054999,72.8692035,SMR/CCR-PSA,Naphtha/RLNG,142.883,50.0,4.5,9.0,32973.0,10.403474651121124
+"Manna et al., 2021","Visakh, Andhra Pradesh (HPCL)",17.6935526,83.2921297,SMR/CCR,Naphtha,329.533,50.0,4.5,9.0,76046.0,11.2391068491776
+"Manna et al., 2021","Mumbai, Maharashtra (BPCL)",19.054999,72.8692035,steam naphtha reforming,Naphtha/RLNG,496.167,50.0,4.5,9.0,114500.0,11.648338835562749
+"Manna et al., 2021","Kochi, Kerala (BPCL)",9.9679032,76.2444378,SMR/CCR,Naphtha/RLNG,732.333,50.0,4.5,9.0,169000.0,12.037659911047468
+"Manna et al., 2021","Manali, Tamil Nadu (CPCL)",13.1672275,80.2598107,SMR,Naphtha,504.53,50.0,4.5,9.0,116430.0,11.665054101845849
+"Manna et al., 2021","Cauvery Basin, Tamil Nadu (CPCL)",10.6026203,79.7619348,SMR,Naphtha,338.0,50.0,4.5,9.0,78000.0,11.264476926102368
+"Manna et al., 2021","Mangalore, Karnataka (ONGC-MRPL)",12.8698101,74.8430082,SMR/CCR,Naphtha,736.667,50.0,4.5,9.0,170000.0,12.04355959836804
+"Manna et al., 2021","Taloja, Maharashtra",19.0754826,73.0921912,SMR,NG,96.183,50.0,4.5,9.0,22196.0,10.00771242359366
+"Manna et al., 2021","Baroda, Gujarat",22.2973142,73.1942567,SMR,NG,341.701,50.0,4.5,9.0,78854.0,11.275366001921656
+"Manna et al., 2021","Namrup, Assam (BVFCL - I)",27.1932851,95.3567576,SMR,NG,110.448,50.0,4.5,9.0,25488.0,10.146002265529594
+"Manna et al., 2021","Namrup, Assam (BVFCL - II)",27.1932851,95.3567576,SMR,NG,128.397,50.0,4.5,9.0,29630.0,10.296576389576238
+"Manna et al., 2021","Kalol, Gujarat",23.2452165,72.4966223,SMR,NG,278.421,50.0,4.5,9.0,64251.0,11.070568130677657
+"Manna et al., 2021","Aonla, Uttar Pradesh (IFFCO - I)",28.2958741,79.1688538,SMR,NG,440.41,50.0,4.5,9.0,101633.0,11.529133403814438
+"Manna et al., 2021","Aonla, Uttar Pradesh (IFFCO - II)",28.2958741,79.1688538,SMR,NG,440.41,50.0,4.5,9.0,101633.0,11.529133403814438
+"Manna et al., 2021","Jagdishpur, Uttar Pradesh",26.456101,81.6198203,SMR,NG,483.44,50.0,4.5,9.0,111563.0,11.622353696243858
+"Manna et al., 2021","Hazira, Gujarat",21.0956055,72.6466021,SMR,NG,956.757,50.0,4.5,9.0,220790.0,12.304971831684766
+"Manna et al., 2021","Vijaipur, Madhya Pradesh (NFL - I)",23.100367,75.9996011,SMR,NG,442.945,50.0,4.5,9.0,102218.0,11.534872849453052
+"Manna et al., 2021","Vijaipur, Madhya Pradesh (NFL- II)",23.100367,75.9996011,SMR,NG,471.783,50.0,4.5,9.0,108873.0,11.597946529267617
+"Manna et al., 2021","Trombay, Maharashtra (RCF - I)",19.033651,72.9503637,SMR,NG,88.591,50.0,4.5,9.0,20444.0,9.925493632798744
+"Manna et al., 2021","Trombay, Maharashtra (RCF - V)",19.033651,72.9503637,SMR,NG,227.799,50.0,4.5,9.0,52569.0,10.869900893813494
+"Manna et al., 2021","Thal, Maharashtra",18.696145,72.8566717,SMR,NG,885.885,50.0,4.5,9.0,204435.0,12.228010247048076
+"Manna et al., 2021","Kakinada, Andhra Pradesh (NFCL - I)",16.9437385,82.2350607,SMR,NG,335.409,50.0,4.5,9.0,77402.0,11.256780818516605
+"Manna et al., 2021","Kakinada, Andhra Pradesh (NFCL - II)",16.9437385,82.2350607,SMR,NG,329.043,50.0,4.5,9.0,75933.0,11.237619820919823
+"Manna et al., 2021","Gadepan, Rajasthan (CFCL - I)",25.1622602,76.1829114,SMR,NG,447.239,50.0,4.5,9.0,103209.0,11.54452102655998
+"Manna et al., 2021","Gadepan, Rajasthan (CFCL - II)",25.1622602,76.1829114,SMR,NG,432.818,50.0,4.5,9.0,99881.0,11.511744768222066
+"Manna et al., 2021","Gadepan, Rajasthan (CFCL - III)",25.1622602,76.1829114,SMR,NG,556.842,50.0,4.5,9.0,128502.0,11.763707529348393
+"Manna et al., 2021","Babrala, Uttar Pradesh",28.2651557,78.4054229,SMR,NG,506.22,50.0,4.5,9.0,116820.0,11.668398127735712
+"Manna et al., 2021","Shahjahanpur, Uttar Pradesh",27.9128583,79.7476254,SMR,NG,384.726,50.0,4.5,9.0,88783.0,11.393961732565682
+"Manna et al., 2021","Phulpur, Uttar Pradesh (IFFCO - I)",26.0362585,82.7985315,SMR,NG,307.567,50.0,4.5,9.0,70977.0,11.170125248852257
+"Manna et al., 2021","Phulpur, Uttar Pradesh (IFFCO - II)",26.0362585,82.7985315,SMR,NG,440.258,50.0,4.5,9.0,101598.0,11.528788971558397
+"Manna et al., 2021","Kota, Rajasthan",25.1737019,75.8574194,SMR,NG,171.427,50.0,4.5,9.0,39560.0,10.585599063475808
+"Manna et al., 2021",Goa,15.3004543,74.0855134,SMR,NG,202.488,50.0,4.5,9.0,46728.0,10.752120235936289
+"Manna et al., 2021","Kanpur, Uttar Pradesh",26.4609135,80.3217588,SMR,NG,321.221,50.0,4.5,9.0,74128.0,11.213562097744587
+"Manna et al., 2021","Alwaye, Kerala",10.1082525,76.3566989,SMR,NG,250.579,50.0,4.5,9.0,57826.0,10.96521107361782
+"Manna et al., 2021","Bharuch, Gujarat",21.7080427,72.9956936,SMR,NG,341.701,50.0,4.5,9.0,78854.0,11.275366001921656
+"Manna et al., 2021","Bathinda, Punjab",30.1794814,75.0471098,SMR,NG,227.799,50.0,4.5,9.0,52569.0,10.869900893813494
+"Manna et al., 2021","Nangal, Punjab",31.3837484,76.3754353,SMR,NG,240.457,50.0,4.5,9.0,55490.0,10.92397612442266
+"Manna et al., 2021","Manali, Tamil Nadu",13.1672275,80.2598107,SMR,NG,265.768,50.0,4.5,9.0,61331.0,11.02405700855628
+"Manna et al., 2021","Panipat, Haryana",29.3912753,76.9771675,SMR,NG,227.799,50.0,4.5,9.0,52569.0,10.869900893813494
+"Manna et al., 2021","Mangalore, Karnataka",12.8698101,74.8430082,SMR,Naphtha,167.054,50.0,4.5,9.0,38551.0,10.559763258320167
+"Manna et al., 2021","Tuticorin, Tamil Nadu",8.8457035,77.9938178,SMR,Naphtha,322.14,50.0,4.5,9.0,74340.0,11.216417895469135
+"Manna et al., 2021","Panagarh, West Bengal",23.4430436,87.4587011,SMR,NG,556.842,50.0,4.5,9.0,128502.0,11.763707529348393
+"Manna et al., 2021","Ramagundam, Telangana",18.7615156,79.4787848,SMR,NG,556.842,50.0,4.5,9.0,128502.0,11.763707529348393
+"Manna et al., 2021","Gorakhpur, Uttar Pradesh",26.6677977,83.3642334,SMR,NG,556.842,50.0,4.5,9.0,128502.0,11.763707529348393
+"Manna et al., 2021","Barauni, Bihar",25.4314544,86.0283753,SMR,NG,556.842,50.0,4.5,9.0,128502.0,11.763707529348393
+"Manna et al., 2021","Sindri, Jharkhand",23.6751544,86.4896289,SMR,NG,556.842,50.0,4.5,9.0,128502.0,11.763707529348393
+"Biswas et al., 2020",India,22.3511148,78.6677428,Grey hydrogen (SMR),Natural gas,2.407,90.0,4.5,10.7,1000.0,6.90875477931522
+"Biswas et al., 2020",India,22.3511148,78.6677428,Blue hydrogen (SMR + CCS),Natural gas,2.407,90.0,4.5,3.5,1000.0,6.90875477931522
+"Biswas et al., 2020",New Delhi,28.6138954,77.2090057,Green-Alkaline,Solar,9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Biswas et al., 2020",Mumbai,19.054999,72.8692035,Green-Alkaline,Solar,9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Biswas et al., 2020",Guwahati,26.1805978,91.753943,Green-Alkaline,Solar,9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Biswas et al., 2020",Hazira,21.0956055,72.6466021,Green-Alkaline,Hybrid (Solar and Wind),4.815,45.0,15.5,2.06,1000.0,6.90875477931522
+"Biswas et al., 2020",Jamnagar,22.4732415,70.0552102,Green-Alkaline,Hybrid (Solar and Wind),4.815,45.0,15.5,2.06,1000.0,6.90875477931522
+"Soni & Reddy, 2024",India,22.3511148,78.6677428,Concentrated solar power parabolic trough collectors (PTC) integrated with thermal energy storage (TES) and PEM electrolyser,Concentrated Solar Power (CSP),6.803,22.0,15.5,3.14,653.0958904109589,6.483253962132813
+"Soni & Reddy, 2024",India,22.3511148,78.6677428,Concentrated solar power parabolic dish collectors (PDC) integrated with thermal energy storage (TES) and PEM electrolyser,Concentrated Solar Power (CSP),6.803,22.0,15.5,3.14,653.0958904109589,6.483253962132813
+"Soni & Reddy, 2024",India (Zone-1),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),22.083,22.0,15.5,3.14,2120.0,7.659642954564682
+"Soni & Reddy, 2024",India (Zone-1),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),12.083,22.0,15.5,3.14,1160.0,7.057036981697891
+"Soni & Reddy, 2024",India (Zone-2),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),20.0,22.0,15.5,3.14,1920.0,7.560601162768557
+"Soni & Reddy, 2024",India (Zone-2),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),14.062,22.0,15.5,3.14,1350.0,7.208600337960199
+"Soni & Reddy, 2024",India (Zone-3),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),22.083,22.0,15.5,3.14,2120.0,7.659642954564682
+"Soni & Reddy, 2024",India (Zone-3),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),10.938,22.0,15.5,3.14,1050.0,6.957497370876951
+"Soni & Reddy, 2024",India (Zone-4),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),20.542,22.0,15.5,3.14,1972.0,7.587310506022615
+"Soni & Reddy, 2024",India (Zone-4),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),13.333,22.0,15.5,3.14,1280.0,7.155396301896734
+"Soni & Reddy, 2024",India (Zone-5),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),24.375,22.0,15.5,3.14,2340.0,7.75833346749091
+"Soni & Reddy, 2024",India (Zone-5),22.3511148,78.6677428,Solar parabolic trough collectors (PTC) / parabolic dish collectors (PDC) + PEM electrolyser,Concentrated Solar Power (CSP),8.125,22.0,15.5,3.14,780.0,6.660575149839686
+"Pawar et al., 2021",India,22.3511148,78.6677428,Steam reforming,Natural gas,2.407,90.0,4.5,1.6,1000.0,6.90875477931522
+"Pawar et al., 2021",India,22.3511148,78.6677428,Steam reforming,Naphtha,4.333,50.0,4.5,2.5,1000.0,6.90875477931522
+"Pawar et al., 2021",India,22.3511148,78.6677428,Partial oxidation,Heavy fuel oil,4.333,50.0,12.0,3.0,1000.0,6.90875477931522
+"Pawar et al., 2021",India,22.3511148,78.6677428,Partial oxidation,Coal,4.333,50.0,12.0,3.8,1000.0,6.90875477931522
+"Pawar et al., 2021",India,22.3511148,78.6677428,Green ammonia (Haber-Bosch using renewable-based electrolytic hydrogen and nitrogen),Onshore wind (0 min Permissible FLH),5222.807,38.0,12.0,1.124,916000.0,13.727772735358728
+"Pawar et al., 2021",India,22.3511148,78.6677428,Green ammonia (Haber-Bosch using renewable-based electrolytic hydrogen and nitrogen),Onshore wind (3000 min Permissible FLH),28.509,38.0,12.0,1.124,5000.0,8.517393171418904
+"Pawar et al., 2021",India,22.3511148,78.6677428,Green ammonia (Haber-Bosch using renewable-based electrolytic hydrogen and nitrogen),Onshore wind (2000 min Permissible FLH),102.632,38.0,12.0,1.124,18000.0,9.798182590890704
+"Pawar et al., 2021",India,22.3511148,78.6677428,Green ammonia (Haber-Bosch using renewable-based electrolytic hydrogen and nitrogen),Onshore wind (2500 min Permissible FLH),729.825,38.0,12.0,1.124,128000.0,11.759793355371237
+"Pawar et al., 2021",India,22.3511148,78.6677428,Green ammonia (Haber-Bosch using renewable-based electrolytic hydrogen and nitrogen),Open-field PV,63227.273,22.0,12.0,2.996,6420000.0,15.674928831429373
+"Pawar et al., 2021",India,22.3511148,78.6677428,Green ammonia (Haber-Bosch using renewable-based electrolytic hydrogen and nitrogen),PV + wind + battery,30911.111,45.0,12.0,2.06,6420000.0,15.674928831429373
+"Pawar et al., 2021",Mumbai port,18.9448345,72.8428644,Green ammonia,Onshore wind (3000 min Permissible FLH),15.395,38.0,12.0,1.124,2700.0,7.901377353792616
+"Pawar et al., 2021",India,22.3511148,78.6677428,Green ammonia (DOM scenario),PV energy,49242.424,22.0,12.0,2.996,5000000.0,15.424948670398354
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Green hydrogen,Renewable energy,59360.731,50.0,12.0,3.1,13698630.136986302,16.432806468798017
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Green hydrogen,Renewable energy,59360.731,50.0,12.0,3.1,13698630.136986302,16.432806468798017
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Green hydrogen,Renewable energy,344292.237,50.0,12.0,3.1,79452054.79452054,18.1906643259366
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Green hydrogen,Renewable energy,20182.648,50.0,12.0,3.1,4657534.246575343,15.35399694913195
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Green hydrogen,Renewable energy,43926.941,50.0,12.0,3.1,10136986.301369864,16.131701401662742
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Green hydrogen,Renewable energy,75981.735,50.0,12.0,3.1,17534246.575342465,16.679666530760795
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Green hydrogen,Renewables,94977.169,50.0,12.0,3.1,21917808.21917808,16.902810070668753
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Grey hydrogen,Natural gas or methane,39573.82,90.0,12.0,13.5,16438356.164383562,16.615128013425306
+"NITI Aayog, 2022",Mathura refinery,27.379719,77.6846522,Green hydrogen,Wind power,5.702,38.0,12.0,1.124,1000.0,6.90875477931522
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Blue hydrogen,Natural gas or coal gasification,2.407,90.0,12.0,13.5,1000.0,6.90875477931522
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Black / Brown hydrogen,Coal or lignite,4.333,50.0,12.0,3.1,1000.0,6.90875477931522
+"NITI Aayog, 2022",India,22.3511148,78.6677428,Bio-hydrogen,Biomass,4.333,50.0,12.0,3.1,1000.0,6.90875477931522
+"Rajakumaran et al., 2024","Hisar, Haryana, India",29.2396596,75.8174505,Alkaline bipolar electrolyser,dedicated solar energy,3.447,22.0,15.5,2.996,350.0,5.860786223465865
+"Rajakumaran et al., 2024","Hisar, Haryana, India",29.2396596,75.8174505,Alkaline bipolar electrolyser,dedicated solar energy,0.886,22.0,15.5,2.996,90.0,4.51085950651685
+"Rajakumaran et al., 2024","Soniyana, Rajasthan, India",25.0812846,73.9570641,Green hydrogen,solar power plant,0.936,22.0,12.0,2.996,95.0,4.564348191467836
+"Rajakumaran et al., 2024","Aurangabad, Maharashtra, India",19.877263,75.3390241,Green Hydrogen,wind and solar energy,0.963,45.0,12.0,2.06,200.0,5.303304908059076
+"Rajakumaran et al., 2024","Greater Noida, India",28.4670734,77.5137649,PEM electrolyser,solar PV panels,0.068,22.0,15.5,3.14,6.5,2.0149030205422647
+"Rajakumaran et al., 2024","Greater Noida, India",28.4670734,77.5137649,high-temperature solid oxide electrolyser cell (HT-SOEC),solar PV panels,9.848,22.0,12.0,2.996,1000.0,6.90875477931522
+"Rajakumaran et al., 2024",India,22.3511148,78.6677428,Steam methane reforming (SMR),natural gas,2.407,90.0,4.5,10.0,1000.0,6.90875477931522
+"Rajakumaran et al., 2024",India,22.3511148,78.6677428,Captive thermal power–driven electrolytic production,captive thermal power,4.333,50.0,12.0,65.0,1000.0,6.90875477931522
+"Rajakumaran et al., 2024",India,22.3511148,78.6677428,Electrolytic hydrogen derived from coal-powered electricity,coal-powered electricity,4.333,50.0,12.0,46.5,1000.0,6.90875477931522
+"Pal et al., 2025",India,22.3511148,78.6677428,Green hydrogen,RE,0.059,50.0,12.0,3.1,13.6986301369863,2.687754301482307
+"Pal et al., 2025",India,22.3511148,78.6677428,Grey hydrogen,Natural gas,0.02,90.0,12.0,13.5,8.219178082191782,2.221285888496337
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Proton Exchange Membrane (PEM),stand alone solar photovoltaics,10.417,22.0,15.5,4.67,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Proton Exchange Membrane (PEM),stand alone wind power,6.031,38.0,15.5,1.13,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Proton Exchange Membrane (PEM),grid electricity,3.056,75.0,15.5,74.85,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Proton Exchange Membrane (PEM),Solar Powered Battery Energy Storage System (BESS) (Li-Ion),10.417,22.0,15.5,3.14,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Proton Exchange Membrane (PEM),Solar Powered Battery Energy Storage System (BESS) (Lead Acid),10.417,22.0,15.5,3.14,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Solid Oxide Electrolysis (SOE),stand alone solar photovoltaics,9.848,22.0,15.5,5.46,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Solid Oxide Electrolysis (SOE),stand alone wind power,5.702,38.0,15.5,2.8,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Solid Oxide Electrolysis (SOE),grid-mix electricity,2.889,75.0,15.5,57.28,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Solid Oxide Electrolysis (SOE),Solar Powered Battery Energy Storage System (BESS) (Li-Ion),9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Solid Oxide Electrolysis (SOE),Solar Powered Battery Energy Storage System (BESS) (Lead Acid),9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Water Electrolysis (AWE),grid electricity,2.889,75.0,15.5,37.42,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Water Electrolysis (AWE),Solar Powered Battery Energy Storage System (BESS) (Li-Ion),9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Water Electrolysis (AWE),Solar Powered Battery Energy Storage System (BESS) (Lead Acid),9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Water Electrolysis (AWE),stand alone solar photovoltaics,9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Water Electrolysis (AWE),stand alone wind power,5.702,38.0,15.5,1.124,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Anion Exchange Membrane (AEM),grid electricity,2.889,75.0,15.5,37.42,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Anion Exchange Membrane (AEM),Solar Powered Battery Energy Storage System (BESS) (Li-Ion),9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Anion Exchange Membrane (AEM),Solar Powered Battery Energy Storage System (BESS) (Lead Acid),9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Anion Exchange Membrane (AEM),stand alone solar photovoltaics,9.848,22.0,15.5,2.996,1000.0,6.90875477931522
+"Maqbool et al., NULL",India,22.3511148,78.6677428,Alkaline Anion Exchange Membrane (AEM),stand alone wind power,5.702,38.0,15.5,1.124,1000.0,6.90875477931522
+"Parmar & Sarma, 2024",India,22.3511148,78.6677428,Green hydrogen,Renewable energy,59360.731,50.0,12.0,3.1,13698630.136986302,16.432806468798017
+"Mallya et al., 2024",India,22.3511148,78.6677428,Green Hydrogen,Wind,0.391,38.0,12.0,1.124,68.4931506849315,4.241228196418299
+"Gupta et al., 2023",India,22.3511148,78.6677428,Green hydrogen (electrolysis),renewable energy,59360.731,50.0,15.5,3.1,13698630.136986302,16.432806468798017
+"Singh et al., 2024",India,22.3511148,78.6677428,National Green Hydrogen Mission (NGHM),"Renewables (Solar, Wind, Hydro, Biomass)",65956.367,45.0,12.0,2.0,13698630.136986302,16.432806468798017
+"Singh et al., 2024",Gopalpur (Odisha),25.3094638,87.2078731,Green Hydrogen and Ammonia project (ACME),Renewables,14246.575,50.0,12.0,3.1,3287671.2328767125,15.005690344324496
+"Singh et al., 2024","Jhakri, Himachal Pradesh",31.4872771,77.6957554,Multi-purpose green hydrogen pilot project (SJVN),Hydro Power,4.333,50.0,12.0,3.1,1000.0,6.90875477931522
+"Singh et al., 2024","Greater Noida, Uttar Pradesh",28.4670734,77.5137649,Integrated Hydrogen Refuelling Station (NTPC),1.6 MW electrolyser,1.127,50.0,12.0,3.1,260.0,5.564520407322694
+"Singh et al., 2024","Jorhat, Assam",26.7577925,94.2079645,Pure Green Hydrogen Pilot Plant (OIL),solar power,0.098,22.0,12.0,2.996,10.0,2.3978952727983707
+"Singh et al., 2024",Himachal Pradesh,31.9292352,77.1828462,Green Hydrogen project (OIL),1 MW electrolyser,1.768,50.0,12.0,3.1,408.0,6.013715156042802
+"Singh et al., 2024","Hazira, Gujarat",21.0956055,72.6466021,Green Hydrogen plant (L&T),Alkaline electrolyser,0.867,50.0,12.0,3.1,200.0,5.303304908059076
+"Singh et al., 2024","Gorakhpur, Uttar Pradesh",26.6677977,83.3642334,Green Hydrogen city gas distribution blending (Torrent Power),Alkaline electrolyser,4.333,50.0,12.0,3.1,1000.0,6.90875477931522
+"Singh et al., 2024",India,22.3511148,78.6677428,SIGHT Green Hydrogen Production Bucket-2 (Bharat Petroleum Corporation Limited),Biomass Based Pathways,23.744,50.0,12.0,3.1,5479.45205479452,8.60894286829063
+"Singh et al., 2024",Maharashtra,19.5670323,76.4164557,Maharashtra Harit Hydrogen Policy Target,Renewable Energy,5936.073,50.0,12.0,3.1,1369863.01369863,14.130222032803708
+"Singh et al., 2024",Andhra Pradesh,15.9240905,80.1863809,Andhra Pradesh Green Hydrogen and Green Ammonia Policy Target,Renewables,5936.073,50.0,12.0,3.1,1369863.01369863,14.130222032803708
+"Singh et al., 2024",Kochi and Bina,9.9679032,76.2444378,CBG plants (BPCL),biomass pathways,8.667,50.0,12.0,3.1,2000.0,7.601402334583733
+"Jain & Srivastava, 2024",India,22.3511148,78.6677428,National Green Hydrogen Mission (Standard),Renewable Energy,59360.731,50.0,12.0,2.0,13698630.136986302,16.432806468798017
+"Jain & Srivastava, 2024","Kochi, Kerala, India",9.9679032,76.2444378,Green Hydrogen Valley (Intrinsic potential),Renewables,1424.658,50.0,12.0,3.1,328767.12328767125,12.70310798882587
+"Jain & Srivastava, 2024","Kochi, Kerala, India",9.9679032,76.2444378,Green Hydrogen Valley (Projected potential 2040),Renewables,1923.288,50.0,12.0,3.1,443835.61643835617,13.003211792698048
+"Jain & Srivastava, 2024","Kochi, Kerala, India",9.9679032,76.2444378,Green Hydrogen Valley Base Case (Phase II),Renewables,60.548,50.0,12.0,3.1,13972.602739726028,9.544925310178602
+"Jain & Srivastava, 2024","Kochi, Kerala, India",9.9679032,76.2444378,Green Hydrogen Valley Base Case (Phase III),India RE (Gujarat),1092.237,50.0,12.0,3.1,252054.794520548,12.437405748814257
+"Jain & Srivastava, 2024","Kochi, Kerala, India",9.9679032,76.2444378,Green Hydrogen Valley Aggressive Case (Phase II),Renewables,427.397,50.0,12.0,3.1,98630.13698630135,11.499142281675384
+"Jain & Srivastava, 2024","Kochi, Kerala, India",9.9679032,76.2444378,Green Hydrogen Valley Aggressive Case (Phase III),India RE (Gujarat),2315.068,50.0,12.0,3.1,534246.5753424658,13.188614634738649
+"Jain & Srivastava, 2024","Kerala, India",10.3528744,76.5120396,Solar Potential (Ground-mounted),Solar,3210.876,22.0,12.0,2.996,326027.397260274,12.694739764715498
+"Jain & Srivastava, 2024","Kerala, India",10.3528744,76.5120396,Wind Potential,Wind,1640.231,38.0,12.0,1.124,287671.23287671234,12.56957703072374
