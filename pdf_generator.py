@@ -1,9 +1,6 @@
 """
-Hydrogen Production AI Studio
-
+Hydrogen AI Studio V2
 PDF Generator
-
-Version 2.0
 """
 
 from io import BytesIO
@@ -31,11 +28,13 @@ class PDFGenerator:
 
     def generate(
 
-        self,
+            self,
 
-        prediction,
+            prediction,
 
-        report
+            report,
+
+            user_input
 
     ):
 
@@ -45,15 +44,13 @@ class PDFGenerator:
 
         story = []
 
-        styles = self.styles
-
         story.append(
 
             Paragraph(
 
-                "<b>Hydrogen Production AI Studio</b>",
+                "Hydrogen AI Studio Report",
 
-                styles["Title"]
+                self.styles["Title"]
 
             )
 
@@ -65,43 +62,91 @@ class PDFGenerator:
 
             Paragraph(
 
-                "<b>Prediction Summary</b>",
+                "<b>Input Information</b>",
 
-                styles["Heading2"]
+                self.styles["Heading2"]
 
             )
 
         )
 
-        summary = f"""
+        fields = [
 
-Location : {prediction['Location']}<br/>
+            ("Country", user_input.get("Country")),
 
-Latitude : {prediction['Latitude']}<br/>
+            ("State", user_input.get("State")),
 
-Longitude : {prediction['Longitude']}<br/><br/>
+            ("Technology", user_input.get("Production_Pathway")),
 
-Hydrogen Production :
-<b>{prediction['Hydrogen_Output']} kg/day</b><br/>
+            ("Power Source", user_input.get("Power_Source")),
 
-Estimated CO₂ :
-<b>{prediction['CO2_Emission']} kg CO₂-eq/kg H₂</b>
+            ("Electrolyzer Capacity",
 
-"""
+             user_input.get("Electrolyzer_Capacity_MW")),
+
+            ("Capacity Factor",
+
+             user_input.get("Capacity_Factor_Percent"))
+
+        ]
+
+        for key, value in fields:
+
+            story.append(
+
+                Paragraph(
+
+                    f"<b>{key}</b> : {value}",
+
+                    self.styles["BodyText"]
+
+                )
+
+            )
+
+        story.append(Spacer(1, 20))
 
         story.append(
 
             Paragraph(
 
-                summary,
+                "<b>Prediction Results</b>",
 
-                styles["BodyText"]
+                self.styles["Heading2"]
 
             )
 
         )
 
-        story.append(Spacer(1, 25))
+        story.append(
+
+            Paragraph(
+
+                f"Hydrogen Production : "
+
+                f"{prediction['Hydrogen_Output']} kg/day",
+
+                self.styles["BodyText"]
+
+            )
+
+        )
+
+        story.append(
+
+            Paragraph(
+
+                f"Estimated CO₂ : "
+
+                f"{prediction['CO2_Emission']} kg CO₂-eq/kg H₂",
+
+                self.styles["BodyText"]
+
+            )
+
+        )
+
+        story.append(Spacer(1, 20))
 
         story.append(
 
@@ -109,31 +154,25 @@ Estimated CO₂ :
 
                 "<b>AI Sustainability Report</b>",
 
-                styles["Heading2"]
+                self.styles["Heading2"]
 
             )
 
         )
 
-        for paragraph in report.split("\n"):
+        for line in report.split("\n"):
 
-            if paragraph.strip():
+            if line.strip():
 
                 story.append(
 
                     Paragraph(
 
-                        paragraph,
+                        line,
 
-                        styles["BodyText"]
+                        self.styles["BodyText"]
 
                     )
-
-                )
-
-                story.append(
-
-                    Spacer(1, 6)
 
                 )
 
