@@ -1,9 +1,6 @@
 """
-Hydrogen Production AI Studio
-
-Explainable AI Agent
-
-Version 2.0
+Hydrogen AI Studio V2
+Feature Importance Agent
 """
 
 import joblib
@@ -19,39 +16,29 @@ class XAIAgent:
 
         self.model = joblib.load(MODEL_PATH)
 
-    # =====================================================
+    # ===================================================
 
     def explain(
-
         self,
-
         scaled_data,
-
         feature_names
-
     ):
 
-        values = np.abs(scaled_data[0])
-
-        importance = values / (
-            values.sum() + 1e-8
+        importance = np.abs(
+            scaled_data[0]
         )
 
-        feature_importance = pd.DataFrame(
+        df = pd.DataFrame({
 
-            {
+            "Feature": feature_names,
 
-                "Feature": feature_names,
+            "Importance": importance
 
-                "Importance": importance
+        })
 
-            }
+        df = df.sort_values(
 
-        )
-
-        feature_importance = feature_importance.sort_values(
-
-            "Importance",
+            by="Importance",
 
             ascending=False
 
@@ -59,9 +46,7 @@ class XAIAgent:
 
         return {
 
-            "feature_importance": feature_importance,
-
-            "top_features": feature_importance.head(10),
+            "feature_importance": df,
 
             "shap_values": None
 
