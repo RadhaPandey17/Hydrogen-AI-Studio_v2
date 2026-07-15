@@ -1,11 +1,9 @@
 """
-Hydrogen Production AI Studio
+Hydrogen AI Studio V2
 Prediction Agent
-Version 2.0
 """
 
 import joblib
-import numpy as np
 import pandas as pd
 
 from config import *
@@ -15,37 +13,83 @@ class PredictionAgent:
 
     def __init__(self):
 
-        self.dataset = pd.read_csv(DATASET_PATH)
+        self.india = pd.read_csv(INDIA_DATASET_PATH)
+
+        self.global_df = pd.read_csv(GLOBAL_DATASET_PATH)
 
         self.model = joblib.load(MODEL_PATH)
 
         self.scaler = joblib.load(SCALER_PATH)
 
-        self.required_features = joblib.load(FEATURE_PATH)
+        self.features = joblib.load(FEATURE_PATH)
 
-    # =====================================================
+    # ==========================================================
+    # COUNTRY LIST
+    # ==========================================================
 
-    def nearest_location(self, latitude, longitude):
+    def get_countries(self):
 
-        df = self.dataset.copy()
+        countries = sorted(self.global_df["Country"].dropna().unique())
 
-        distance = (
-            (df["Latitude"] - latitude) ** 2 +
-            (df["Longitude"] - longitude) ** 2
+        countries.insert(0, "India")
+
+        return countries
+
+    # ==========================================================
+    # STATES OF INDIA
+    # ==========================================================
+
+    def get_states(self):
+
+        return sorted(
+
+            self.india["State"].dropna().unique()
+
         )
 
-        return df.loc[distance.idxmin()].copy()
+    # ==========================================================
+    # DEFAULT VALUES
+    # ==========================================================
 
-    # =====================================================
+    def get_default_record(
 
-    def prepare_features(self, row):
+            self,
+            country,
+            state=None
+    ):
 
-        feature_row = row.copy()
+        if country == "India":
 
-        remove_columns = [
+            row = self.india[
 
-            "Paper_Citation",
+                self.india["State"] == state
+
+            ].iloc[0]
+
+        else:
+
+            row = self.global_df[
+
+                self.global_df["Country"] == country
+
+            ].iloc[0]
+
+        return row.to_dict()
+
+    # ==========================================================
+    # PREPARE FEATURES
+    # ==========================================================
+
+    def prepare_input(self, record):
+
+        df = pd.DataFrame([record])
+
+        remove = [
+
+            "Country",
+            "State",
             "Location",
+            "Paper_Citation",
             "Latitude",
             "Longitude",
             "Hydrogen_Output_kg_day",
@@ -53,100 +97,76 @@ class PredictionAgent:
 
         ]
 
-        feature_row = feature_row.drop(
-            labels=remove_columns,
-            errors="ignore"
-        )
+        for col in remove:
 
-        df = pd.DataFrame([feature_row])
+            if col in df.columns:
+
+                df.drop(columns=col, inplace=True)
 
         df = pd.get_dummies(
+
             df,
+
             columns=[
+
                 "Production_Pathway",
+
                 "Power_Source"
+
             ],
+
             drop_first=False
+
         )
 
-        df.columns = df.columns.str.replace(
-            r"[\[\]<>]",
-            "_",
-            regex=True
-        )
+        for f in self.features:
 
-        for feature in self.required_features:
+            if f not in df.columns:
 
-            if feature not in df.columns:
+                df[f] = 0
 
-                df[feature] = 0
-
-        df = df[self.required_features]
+        df = df[self.features]
 
         scaled = self.scaler.transform(df)
 
         return scaled
 
-    # =====================================================
+    # ==========================================================
+    # PREDICT
+    # ==========================================================
 
     def predict(
-        self,
-        latitude,
-        longitude,
-        custom_inputs=None
+
+            self,
+            user_record
     ):
 
-        nearest = self.nearest_location(
-            latitude,
-            longitude
-        )
-
-        if custom_inputs:
-
-            for key, value in custom_inputs.items():
-
-                if key in nearest.index:
-
-                    nearest[key] = value
-
-        scaled = self.prepare_features(nearest)
+        scaled = self.prepare_input(user_record)
 
         prediction = float(
+
             self.model.predict(scaled)[0]
-        )
 
-        if np.isnan(prediction):
-
-            hydrogen = 0.0
-
-        elif prediction < 30:
-
-            hydrogen = np.expm1(prediction)
-
-        else:
-
-            hydrogen = prediction
-
-        hydrogen = max(0, hydrogen)
-
-        co2 = float(
-            nearest["LCA_GWP_kg_CO2_eq_per_kg_H2"]
         )
 
         return {
 
-            "Location": nearest["Location"],
+            "Hydrogen_Output": round(prediction,2),
 
-            "Latitude": nearest["Latitude"],
+            "CO2_Emission": round(
 
-            "Longitude": nearest["Longitude"],
+                float(
 
-            "Hydrogen_Output": round(hydrogen, 2),
+                    user_record["LCA_GWP_kg_CO2_eq_per_kg_H2"]
 
-            "CO2_Emission": round(co2, 2),
+                ),
 
-            "Feature_Row": nearest,
+                2
 
-            "Scaled_Data": scaled
+            ),
+
+            "Scaled_Data": scaled,
+
+            "Feature_Row": user_record
 
         }
