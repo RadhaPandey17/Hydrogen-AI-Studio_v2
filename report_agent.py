@@ -1,16 +1,11 @@
 """
-Hydrogen Production AI Studio
+Hydrogen AI Studio V2
 Gemini Report Agent
-Version 2.0
 """
 
 from google import genai
 
-from config import (
-    GOOGLE_API_KEY,
-    GEMINI_MODEL,
-    PROMPT_PATH,
-)
+from config import *
 
 
 class ReportAgent:
@@ -21,82 +16,76 @@ class ReportAgent:
             api_key=GOOGLE_API_KEY
         )
 
-        if PROMPT_PATH.exists():
+        with open(
+            PROMPT_PATH,
+            "r",
+            encoding="utf-8"
+        ) as f:
 
-            with open(
-                PROMPT_PATH,
-                "r",
-                encoding="utf-8"
-            ) as f:
+            self.prompt = f.read()
 
-                self.system_prompt = f.read()
-
-        else:
-
-            self.system_prompt = (
-                "You are a Hydrogen Sustainability Expert."
-            )
-
-    # =====================================================
+    # ===================================================
 
     def generate_report(
-
         self,
-
-        prediction_result,
-
-        feature_importance
-
+        prediction,
+        feature_importance,
+        user_input
     ):
 
         top = feature_importance.head(5)
 
-        features = "\n".join(
+        feature_text = ""
 
-            [
+        for _, row in top.iterrows():
 
-                f"- {r.Feature}: {r.Importance:.3f}"
+            feature_text += (
+                f"{row['Feature']} : "
+                f"{row['Importance']:.4f}\n"
+            )
 
-                for _, r in top.iterrows()
+        full_prompt = f"""
 
-            ]
+{self.prompt}
 
-        )
+Country :
+{user_input.get('Country')}
 
-        prompt = f"""
+State :
+{user_input.get('State','N/A')}
 
-{self.system_prompt}
+Technology :
+{user_input.get('Production_Pathway')}
 
-Prediction Summary
+Power Source :
+{user_input.get('Power_Source')}
 
-Location:
-{prediction_result['Location']}
+Electrolyzer Capacity :
+{user_input.get('Electrolyzer_Capacity_MW')}
 
-Latitude:
-{prediction_result['Latitude']}
+Capacity Factor :
+{user_input.get('Capacity_Factor_Percent')}
 
-Longitude:
-{prediction_result['Longitude']}
+Predicted Hydrogen :
 
-Predicted Hydrogen Production:
-{prediction_result['Hydrogen_Output']} kg/day
+{prediction['Hydrogen_Output']} kg/day
 
-Estimated CO₂ Emission:
-{prediction_result['CO2_Emission']} kg CO₂-eq/kg H₂
+Estimated CO₂ :
 
-Important Features
+{prediction['CO2_Emission']} kg CO₂-eq/kg H₂
 
-{features}
+Top Important Features
 
-Generate a professional sustainability report.
+{feature_text}
 
+Generate a concise professional report.
 """
 
         response = self.client.models.generate_content(
 
             model=GEMINI_MODEL,
 
-            contents=prompt
+            contents=full_prompt
 
         )
 
