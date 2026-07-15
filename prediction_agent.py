@@ -21,41 +21,45 @@ class PredictionAgent:
 
         self.scaler = joblib.load(SCALER_PATH)
 
-        self.features = joblib.load(FEATURE_PATH)
+        self.required_features = joblib.load(FEATURE_PATH)
 
     # ==========================================================
-    # COUNTRY LIST
+    # Country List
     # ==========================================================
 
     def get_countries(self):
 
-        countries = sorted(self.global_df["Country"].dropna().unique())
+        countries = sorted(
+            self.global_df["Country"].dropna().unique()
+        )
 
-        countries.insert(0, "India")
+        if "India" not in countries:
+            countries.insert(0, "India")
 
         return countries
 
     # ==========================================================
-    # STATES OF INDIA
+    # State List
     # ==========================================================
 
     def get_states(self):
 
         return sorted(
-
             self.india["State"].dropna().unique()
-
         )
 
     # ==========================================================
-    # DEFAULT VALUES
+    # Default Record
     # ==========================================================
 
     def get_default_record(
 
             self,
+
             country,
+
             state=None
+
     ):
 
         if country == "India":
@@ -77,27 +81,34 @@ class PredictionAgent:
         return row.to_dict()
 
     # ==========================================================
-    # PREPARE FEATURES
+    # Prepare Features
     # ==========================================================
 
-    def prepare_input(self, record):
+    def prepare_features(self, record):
 
         df = pd.DataFrame([record])
 
-        remove = [
+        remove_columns = [
 
             "Country",
+
             "State",
+
             "Location",
-            "Paper_Citation",
+
             "Latitude",
+
             "Longitude",
+
+            "Paper_Citation",
+
             "Hydrogen_Output_kg_day",
+
             "Hydrogen_Output_log"
 
         ]
 
-        for col in remove:
+        for col in remove_columns:
 
             if col in df.columns:
 
@@ -119,29 +130,25 @@ class PredictionAgent:
 
         )
 
-        for f in self.features:
+        for feature in self.required_features:
 
-            if f not in df.columns:
+            if feature not in df.columns:
 
-                df[f] = 0
+                df[feature] = 0
 
-        df = df[self.features]
+        df = df[self.required_features]
 
         scaled = self.scaler.transform(df)
 
         return scaled
 
     # ==========================================================
-    # PREDICT
+    # Prediction
     # ==========================================================
 
-    def predict(
+    def predict(self, user_record):
 
-            self,
-            user_record
-    ):
-
-        scaled = self.prepare_input(user_record)
+        scaled = self.prepare_features(user_record)
 
         prediction = float(
 
@@ -151,7 +158,7 @@ class PredictionAgent:
 
         return {
 
-            "Hydrogen_Output": round(prediction,2),
+            "Hydrogen_Output": round(prediction, 2),
 
             "CO2_Emission": round(
 
