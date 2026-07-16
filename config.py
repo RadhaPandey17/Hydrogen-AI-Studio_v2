@@ -31,8 +31,6 @@ if not GOOGLE_API_KEY:
 # DATASETS
 # ==========================================================
 
-MASTER_DATASET = PROJECT_ROOT / "Hydrogen_LCA_Final_Preprocessed.csv"
-
 INDIA_DATASET = PROJECT_ROOT / "india_dataset.csv"
 
 GLOBAL_DATASET = PROJECT_ROOT / "global_dataset.csv"
