@@ -1,20 +1,15 @@
 """
-Hydrogen AI Studio V2
+Hydrogen AI Studio v2
 PDF Generator
 """
 
 from io import BytesIO
 
 from reportlab.lib.styles import getSampleStyleSheet
-
 from reportlab.platypus import (
-
     SimpleDocTemplate,
-
     Paragraph,
-
-    Spacer
-
+    Spacer,
 )
 
 
@@ -24,17 +19,15 @@ class PDFGenerator:
 
         self.styles = getSampleStyleSheet()
 
-    # =====================================================
+    # ======================================================
 
     def generate(
 
-            self,
+        self,
 
-            prediction,
+        prediction,
 
-            report,
-
-            user_input
+        ai_report,
 
     ):
 
@@ -44,11 +37,13 @@ class PDFGenerator:
 
         story = []
 
+        # ------------------------------------------------
+
         story.append(
 
             Paragraph(
 
-                "Hydrogen AI Studio Report",
+                "<b>Hydrogen AI Studio</b>",
 
                 self.styles["Title"]
 
@@ -56,61 +51,15 @@ class PDFGenerator:
 
         )
 
-        story.append(Spacer(1, 20))
+        story.append(Spacer(1,20))
+
+        # ------------------------------------------------
 
         story.append(
 
             Paragraph(
 
-                "<b>Input Information</b>",
-
-                self.styles["Heading2"]
-
-            )
-
-        )
-
-        fields = [
-
-            ("Country", user_input.get("Country")),
-
-            ("State", user_input.get("State")),
-
-            ("Technology", user_input.get("Production_Pathway")),
-
-            ("Power Source", user_input.get("Power_Source")),
-
-            ("Electrolyzer Capacity",
-
-             user_input.get("Electrolyzer_Capacity_MW")),
-
-            ("Capacity Factor",
-
-             user_input.get("Capacity_Factor_Percent"))
-
-        ]
-
-        for key, value in fields:
-
-            story.append(
-
-                Paragraph(
-
-                    f"<b>{key}</b> : {value}",
-
-                    self.styles["BodyText"]
-
-                )
-
-            )
-
-        story.append(Spacer(1, 20))
-
-        story.append(
-
-            Paragraph(
-
-                "<b>Prediction Results</b>",
+                "<b>Prediction Summary</b>",
 
                 self.styles["Heading2"]
 
@@ -122,9 +71,7 @@ class PDFGenerator:
 
             Paragraph(
 
-                f"Hydrogen Production : "
-
-                f"{prediction['Hydrogen_Output']} kg/day",
+                f"<b>Country :</b> {prediction['Country']}",
 
                 self.styles["BodyText"]
 
@@ -136,9 +83,7 @@ class PDFGenerator:
 
             Paragraph(
 
-                f"Estimated CO₂ : "
-
-                f"{prediction['CO2_Emission']} kg CO₂-eq/kg H₂",
+                f"<b>Location :</b> {prediction['Location']}",
 
                 self.styles["BodyText"]
 
@@ -146,7 +91,57 @@ class PDFGenerator:
 
         )
 
-        story.append(Spacer(1, 20))
+        story.append(
+
+            Paragraph(
+
+                f"<b>Latitude :</b> {prediction['Latitude']}",
+
+                self.styles["BodyText"]
+
+            )
+
+        )
+
+        story.append(
+
+            Paragraph(
+
+                f"<b>Longitude :</b> {prediction['Longitude']}",
+
+                self.styles["BodyText"]
+
+            )
+
+        )
+
+        story.append(
+
+            Paragraph(
+
+                f"<b>Hydrogen Production :</b> {prediction['Hydrogen_Output']} kg/day",
+
+                self.styles["BodyText"]
+
+            )
+
+        )
+
+        story.append(
+
+            Paragraph(
+
+                f"<b>Estimated CO₂ :</b> {prediction['CO2_Emission']} kg CO₂-eq/kg H₂",
+
+                self.styles["BodyText"]
+
+            )
+
+        )
+
+        story.append(Spacer(1,20))
+
+        # ------------------------------------------------
 
         story.append(
 
@@ -160,7 +155,11 @@ class PDFGenerator:
 
         )
 
-        for line in report.split("\n"):
+        story.append(Spacer(1,12))
+
+        # ------------------------------------------------
+
+        for line in ai_report.split("\n"):
 
             if line.strip():
 
@@ -173,6 +172,12 @@ class PDFGenerator:
                         self.styles["BodyText"]
 
                     )
+
+                )
+
+                story.append(
+
+                    Spacer(1,6)
 
                 )
 
