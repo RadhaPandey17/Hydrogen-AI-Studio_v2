@@ -17,8 +17,21 @@ from config import *
 class PredictionAgent:
 
     def __init__(self):
+        
+        self.master = pd.concat(
 
-        self.master = pd.read_csv(MASTER_DATASET)
+    [
+
+        self.india,
+
+        self.global_df
+
+    ],
+
+    ignore_index=True
+
+)
+        
 
         self.india = pd.read_csv(INDIA_DATASET)
 
@@ -51,7 +64,7 @@ class PredictionAgent:
         return df.loc[idx].copy()
 
     # =======================================================
-    # Professor Workflow
+    # New Workflow
     # =======================================================
 
     def dataset_location(
