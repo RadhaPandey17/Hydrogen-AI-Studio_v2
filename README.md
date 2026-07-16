@@ -1,4 +1,4 @@
-# ⚡ HydroIntel AI Studio
+# ⚡ Hydrogen Production AI Studio V2
 
 ### Intelligent Decision Support System for Sustainable Hydrogen Production
 
