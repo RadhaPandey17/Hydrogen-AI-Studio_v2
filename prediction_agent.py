@@ -1,9 +1,14 @@
 """
-Hydrogen AI Studio V2
 Prediction Agent
+Supports
+
+1. Latitude / Longitude Prediction
+
+2. Country / State Prediction
 """
 
 import joblib
+import numpy as np
 import pandas as pd
 
 from config import *
@@ -13,9 +18,11 @@ class PredictionAgent:
 
     def __init__(self):
 
-        self.india = pd.read_csv(INDIA_DATASET_PATH)
+        self.master = pd.read_csv(MASTER_DATASET)
 
-        self.global_df = pd.read_csv(GLOBAL_DATASET_PATH)
+        self.india = pd.read_csv(INDIA_DATASET)
+
+        self.global_df = pd.read_csv(GLOBAL_DATASET)
 
         self.model = joblib.load(MODEL_PATH)
 
@@ -23,76 +30,65 @@ class PredictionAgent:
 
         self.required_features = joblib.load(FEATURE_PATH)
 
-    # ==========================================================
-    # Country List
-    # ==========================================================
+    # =======================================================
+    # Existing Workflow
+    # =======================================================
 
-    def get_countries(self):
+    def nearest_location(self, latitude, longitude):
 
-        countries = sorted(
-            self.global_df["Country"].dropna().unique()
+        df = self.master.copy()
+
+        distance = (
+
+            (df["Latitude"] - latitude) ** 2 +
+
+            (df["Longitude"] - longitude) ** 2
+
         )
 
-        if "India" not in countries:
-            countries.insert(0, "India")
+        idx = distance.idxmin()
 
-        return countries
+        return df.loc[idx].copy()
 
-    # ==========================================================
-    # State List
-    # ==========================================================
+    # =======================================================
+    # Professor Workflow
+    # =======================================================
 
-    def get_states(self):
+    def dataset_location(
 
-        return sorted(
-            self.india["State"].dropna().unique()
-        )
+        self,
 
-    # ==========================================================
-    # Default Record
-    # ==========================================================
+        country,
 
-    def get_default_record(
-
-            self,
-
-            country,
-
-            state=None
+        state=None
 
     ):
 
-        if country == "India":
+        if country.lower() == "india":
 
-            row = self.india[
+            df = self.india
 
-                self.india["State"] == state
+            row = df[df["State"] == state]
 
-            ].iloc[0]
+            return row.iloc[0].copy()
 
         else:
 
-            row = self.global_df[
+            df = self.global_df
 
-                self.global_df["Country"] == country
+            row = df[df["Country"] == country]
 
-            ].iloc[0]
+            return row.iloc[0].copy()
 
-        return row.to_dict()
+    # =======================================================
 
-    # ==========================================================
-    # Prepare Features
-    # ==========================================================
+    def prepare_features(self, row):
 
-    def prepare_features(self, record):
+        row = row.copy()
 
-        df = pd.DataFrame([record])
+        remove = [
 
-        remove_columns = [
-
-            "Country",
-
-            "State",
+            "Paper_Citation",
 
             "Location",
 
@@ -100,19 +96,19 @@ class PredictionAgent:
 
             "Longitude",
 
-            "Paper_Citation",
-
             "Hydrogen_Output_kg_day",
 
             "Hydrogen_Output_log"
 
         ]
 
-        for col in remove_columns:
+        for c in remove:
 
-            if col in df.columns:
+            if c in row.index:
 
-                df.drop(columns=col, inplace=True)
+                row.drop(c, inplace=True)
+
+        df = pd.DataFrame([row])
 
         df = pd.get_dummies(
 
@@ -138,17 +134,13 @@ class PredictionAgent:
 
         df = df[self.required_features]
 
-        scaled = self.scaler.transform(df)
+        return self.scaler.transform(df)
 
-        return scaled
+    # =======================================================
 
-    # ==========================================================
-    # Prediction
-    # ==========================================================
+    def run_prediction(self, row):
 
-    def predict(self, user_record):
-
-        scaled = self.prepare_features(user_record)
+        scaled = self.prepare_features(row)
 
         prediction = float(
 
@@ -156,15 +148,31 @@ class PredictionAgent:
 
         )
 
+        if prediction < 50:
+
+            hydrogen = np.expm1(prediction)
+
+        else:
+
+            hydrogen = prediction
+
         return {
 
-            "Hydrogen_Output": round(prediction, 2),
+            "Location": row["Location"],
+
+            "Country": row["Country"],
+
+            "Latitude": row["Latitude"],
+
+            "Longitude": row["Longitude"],
+
+            "Hydrogen_Output": round(float(hydrogen),2),
 
             "CO2_Emission": round(
 
                 float(
 
-                    user_record["LCA_GWP_kg_CO2_eq_per_kg_H2"]
+                    row["LCA_GWP_kg_CO2_eq_per_kg_H2"]
 
                 ),
 
@@ -172,8 +180,56 @@ class PredictionAgent:
 
             ),
 
-            "Scaled_Data": scaled,
+            "Feature_Row": row,
 
-            "Feature_Row": user_record
+            "Scaled_Data": scaled
 
         }
+
+    # =======================================================
+    # Mode 1
+    # =======================================================
+
+    def predict_from_coordinates(
+
+        self,
+
+        latitude,
+
+        longitude
+
+    ):
+
+        row = self.nearest_location(
+
+            latitude,
+
+            longitude
+
+        )
+
+        return self.run_prediction(row)
+
+    # =======================================================
+    # Mode 2
+    # =======================================================
+
+    def predict_from_dataset(
+
+        self,
+
+        country,
+
+        state=None
+
+    ):
+
+        row = self.dataset_location(
+
+            country,
+
+            state
+
+        )
+
+        return self.run_prediction(row)
