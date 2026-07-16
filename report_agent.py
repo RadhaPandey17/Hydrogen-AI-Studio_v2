@@ -1,11 +1,15 @@
 """
-Hydrogen AI Studio V2
+Hydrogen AI Studio v2
 Gemini Report Agent
 """
 
 from google import genai
 
-from config import *
+from config import (
+    GOOGLE_API_KEY,
+    GEMINI_MODEL,
+    PROMPT_PATH,
+)
 
 
 class ReportAgent:
@@ -16,77 +20,134 @@ class ReportAgent:
             api_key=GOOGLE_API_KEY
         )
 
-        with open(
-            PROMPT_PATH,
-            "r",
-            encoding="utf-8"
-        ) as f:
+        if PROMPT_PATH.exists():
 
-            self.prompt = f.read()
+            with open(
+                PROMPT_PATH,
+                "r",
+                encoding="utf-8"
+            ) as f:
 
-    # ===================================================
+                self.system_prompt = f.read()
+
+        else:
+
+            self.system_prompt = """
+You are a Hydrogen Sustainability Expert.
+
+Generate a professional report including:
+
+1. Executive Summary
+
+2. Selected Location
+
+3. Hydrogen Production Prediction
+
+4. Environmental Impact
+
+5. Explainable AI Interpretation
+
+6. Sustainability Assessment
+
+7. Recommendations
+
+8. Conclusion
+"""
+
+    # ======================================================
 
     def generate_report(
+
         self,
+
         prediction,
-        feature_importance,
-        user_input
+
+        feature_importance
+
     ):
 
-        top = feature_importance.head(5)
+        top = feature_importance.head(8)
 
         feature_text = ""
 
         for _, row in top.iterrows():
 
             feature_text += (
-                f"{row['Feature']} : "
-                f"{row['Importance']:.4f}\n"
+
+                f"- {row['Feature']} "
+
+                f"({round(float(row['Importance']),4)})\n"
+
             )
 
-        full_prompt = f"""
+        prompt = f"""
 
-{self.prompt}
+{self.system_prompt}
 
-Country :
-{user_input.get('Country')}
+Location Information
 
-State :
-{user_input.get('State','N/A')}
+Country:
+{prediction.get("Country","Unknown")}
 
-Technology :
-{user_input.get('Production_Pathway')}
+Location:
+{prediction.get("Location","Unknown")}
 
-Power Source :
-{user_input.get('Power_Source')}
+Latitude:
+{prediction.get("Latitude")}
 
-Electrolyzer Capacity :
-{user_input.get('Electrolyzer_Capacity_MW')}
+Longitude:
+{prediction.get("Longitude")}
 
-Capacity Factor :
-{user_input.get('Capacity_Factor_Percent')}
+Predicted Hydrogen Production
 
-Predicted Hydrogen :
+{prediction["Hydrogen_Output"]} kg/day
 
-{prediction['Hydrogen_Output']} kg/day
+Estimated CO₂ Emission
 
-Estimated CO₂ :
+{prediction["CO2_Emission"]} kg CO₂-eq/kg H₂
 
-{prediction['CO2_Emission']} kg CO₂-eq/kg H₂
-
-Top Important Features
+Important Features
 
 {feature_text}
 
-Generate a concise professional report.
+Generate the report.
 """
 
-        response = self.client.models.generate_content(
+        try:
 
-            model=GEMINI_MODEL,
+            response = self.client.models.generate_content(
 
-            contents=full_prompt
+                model=GEMINI_MODEL,
 
-        )
+                contents=prompt
 
-        return response.text
+            )
+
+            return response.text
+
+        except Exception as e:
+
+            return f"""
+
+Gemini Report Generation Failed
+
+Reason
+
+{e}
+
+Prediction Summary
+
+Location:
+{prediction.get("Location")}
+
+Country:
+{prediction.get("Country")}
+
+Hydrogen Production
+
+{prediction["Hydrogen_Output"]} kg/day
+
+Estimated CO₂
+
+{prediction["CO2_Emission"]} kg CO₂-eq/kg H₂
+"""
