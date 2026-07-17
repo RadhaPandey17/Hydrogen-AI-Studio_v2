@@ -228,7 +228,7 @@ Feature Importance Analysis
 # DASHBOARD
 # ==========================================================
 
-if page == "Dashboard":
+if page == "🏠 Dashboard":
 
     st.markdown(
         """
@@ -453,7 +453,7 @@ PDF Download
 # PREDICTION PAGE
 # ==========================================================
 
-elif page == "Prediction":
+elif page == "🔮 Prediction":
 
     st.title("⚡ Hydrogen Production Prediction")
 
@@ -842,7 +842,7 @@ elif page == "Prediction":
 # AI REPORT PAGE
 # ==========================================================
 
-elif page == "AI Report":
+elif page == "📄 AI Report":
 
     st.title("🤖 AI Sustainability Report")
 
@@ -908,7 +908,7 @@ elif page == "AI Report":
 # ABOUT PAGE
 # ==========================================================
 
-elif page == "About":
+elif page == "ℹ️ About":
 
     st.title("ℹ About Hydrogen Production AI Studio")
 
