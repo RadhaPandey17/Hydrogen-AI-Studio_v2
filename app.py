@@ -584,7 +584,7 @@ elif page == "🔮 Prediction":
 
     elif prediction_mode == "⚙ Custom Scenario":
 
-        dataset = prediction_agent.dataset
+        dataset = prediction_agent.india
 
         row = dataset.iloc[0]
 
