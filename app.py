@@ -30,6 +30,46 @@ st.set_page_config(
 # ==========================================================
 # MODERN CSS
 # ==========================================================
+st.markdown("""
+<style>
+
+.big-title{
+    font-size:48px;
+    font-weight:800;
+    color:#4F8BF9;
+}
+
+.subtitle{
+    font-size:18px;
+    color:#B8C1CC;
+    margin-bottom:15px;
+}
+
+.block-container{
+    padding-top:2rem;
+}
+
+div[data-testid="stMetric"]{
+    background:#1E293B;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:12px;
+}
+
+div[data-testid="stInfo"]{
+    border-radius:14px;
+}
+
+div[data-testid="stSuccess"]{
+    border-radius:14px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+
+
 
 st.markdown("""
 
@@ -230,112 +270,108 @@ Feature Importance Analysis
 
 if page == "🏠 Dashboard":
 
+    # ======================================================
+    # TITLE
+    # ======================================================
+
     st.markdown(
         """
         <div class="big-title">
         ⚡ Hydrogen Production AI Studio
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
-    st.caption(
-        "Machine Learning Assisted Life Cycle Assessment of Hydrogen Production Pathways"
+    st.markdown(
+        """
+        <div class="subtitle">
+        Machine Learning Assisted Life Cycle Assessment (LCA) of Hydrogen Production Pathways
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.markdown("---")
 
     # ======================================================
-    # KPI CARDS
+    # RESEARCH OVERVIEW
     # ======================================================
-
-    c1, c2, c3, c4 = st.columns(4)
-
-    with c1:
-        st.markdown(
-            """
-            <div class="metric-card">
-            <h4>Dataset</h4>
-            <h2>150+</h2>
-            <p>Hydrogen Samples</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    with c2:
-        st.markdown(
-            """
-            <div class="metric-card">
-            <h4>AI Model</h4>
-            <h2>Voting</h2>
-            <p>Regressor</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    with c3:
-        st.markdown(
-            """
-            <div class="metric-card">
-            <h4>Prediction</h4>
-            <h2>H₂ + CO₂</h2>
-            <p>Instant Output</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    with c4:
-        st.markdown(
-            """
-            <div class="metric-card">
-            <h4>AI Report</h4>
-            <h2>Gemini</h2>
-            <p>Professional Analysis</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    st.markdown("---")
-
-    # ======================================================
-    # DATASET OVERVIEW
-    # ======================================================
-
-    dataset = prediction_agent.dataset
 
     left, right = st.columns([2, 1])
 
     with left:
 
-        st.subheader("🌍 Hydrogen Production Pathways")
+        st.info(
+            """
+### 🌍 Research Overview
 
-        pathway_counts = (
+Hydrogen AI Studio integrates Machine Learning, Explainable AI (SHAP),
+Life Cycle Assessment (LCA), and Google Gemini AI to support sustainable
+hydrogen production analysis.
+
+The platform predicts hydrogen production, estimates environmental
+impacts, explains the important influencing factors, and automatically
+generates professional sustainability reports.
+"""
+        )
+
+    with right:
+
+        st.success(
+            """
+### 🚀 Platform Modules
+
+✔ Hydrogen Prediction
+
+✔ CO₂ Assessment
+
+✔ SHAP Explainability
+
+✔ Gemini AI Report
+
+✔ PDF Report Export
+"""
+        )
+
+    st.markdown("---")
+
+    # ======================================================
+    # DATASET
+    # ======================================================
+
+    dataset = prediction_agent.master
+
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+
+        st.subheader("📊 Hydrogen Production Technologies")
+
+        pathway = (
             dataset["Production_Pathway"]
             .value_counts()
             .reset_index()
         )
 
-        pathway_counts.columns = [
-            "Pathway",
-            "Count"
+        pathway.columns = [
+            "Technology",
+            "Samples"
         ]
 
         fig = px.bar(
-            pathway_counts,
-            x="Pathway",
-            y="Count",
-            color="Count",
-            title="Dataset Distribution"
+            pathway,
+            x="Technology",
+            y="Samples",
+            color="Samples",
+            text="Samples",
+            title="Technology Distribution"
         )
 
         fig.update_layout(
-            template="plotly_white",
-            height=420,
-            showlegend=False
+            template="plotly_dark",
+            showlegend=False,
+            height=430
         )
 
         st.plotly_chart(
@@ -343,9 +379,19 @@ if page == "🏠 Dashboard":
             use_container_width=True
         )
 
-    with right:
+    with col2:
 
-        st.subheader("📊 Dataset Statistics")
+        st.subheader("📈 Dataset Statistics")
+
+        st.metric(
+            "Hydrogen Samples",
+            len(dataset)
+        )
+
+        st.metric(
+            "Countries",
+            dataset["Country"].nunique()
+        )
 
         st.metric(
             "Locations",
@@ -353,14 +399,7 @@ if page == "🏠 Dashboard":
         )
 
         st.metric(
-            "Countries",
-            dataset["Country"].nunique()
-            if "Country" in dataset.columns
-            else 1
-        )
-
-        st.metric(
-            "Average H₂",
+            "Average Hydrogen",
             f"{dataset['Hydrogen_Output_kg_day'].mean():.1f} kg/day"
         )
 
@@ -375,80 +414,98 @@ if page == "🏠 Dashboard":
     # WORKFLOW
     # ======================================================
 
-    st.subheader("⚙ AI Workflow")
+    st.subheader("⚙ Platform Workflow")
 
-    st.info(
+    st.code(
         """
-User Inputs
-
-↓
-
-Nearest Dataset Matching
-
-↓
-
-Feature Engineering
-
-↓
-
-Machine Learning Prediction
-
-↓
-
-Hydrogen Production
-
-↓
-
-Environmental Impact
-
-↓
-
-Explainable AI
-
-↓
-
-Gemini Sustainability Report
-
-↓
-
-PDF Download
-"""
+Country / Coordinates
+        │
+        ▼
+ Dataset Retrieval
+        │
+        ▼
+ Machine Learning Prediction
+        │
+        ▼
+ Hydrogen Production
+        │
+        ▼
+ Environmental Impact
+        │
+        ▼
+ SHAP Explainability
+        │
+        ▼
+ Gemini Sustainability Report
+        │
+        ▼
+ PDF Report Generation
+""",
+        language="text"
     )
 
     st.markdown("---")
 
-    st.subheader("🚀 Key Features")
+    # ======================================================
+    # FEATURES
+    # ======================================================
 
-    col1, col2 = st.columns(2)
+    f1, f2 = st.columns(2)
 
-    with col1:
-
-        st.success(
-            """
-✅ Hydrogen Production Prediction
-
-✅ Automatic Feature Engineering
-
-✅ CO₂ Estimation
-
-✅ Explainable AI
-
-"""
-        )
-
-    with col2:
+    with f1:
 
         st.success(
             """
-✅ AI Sustainability Report
+### 🔬 Machine Learning
 
-✅ PDF Download
+• Voting Regressor Ensemble
 
-✅ Interactive Visualizations
+• Coordinate-Based Prediction
 
-✅ Modern Dashboard
+• Country & State Prediction
+
+• Automated Feature Engineering
+
+• Environmental Impact Prediction
 """
         )
+
+    with f2:
+
+        st.success(
+            """
+### 🤖 Artificial Intelligence
+
+• SHAP Explainability
+
+• Google Gemini Report Generation
+
+• Sustainability Assessment
+
+• Professional PDF Export
+
+• Interactive Data Visualisation
+"""
+        )
+
+    st.markdown("---")
+
+    # ======================================================
+    # PROJECT INFORMATION
+    # ======================================================
+
+    st.subheader("📚 Project Objective")
+
+    st.write(
+        """
+This platform is designed to assist researchers and engineers in
+evaluating hydrogen production pathways using Machine Learning and
+Life Cycle Assessment. It enables rapid prediction of hydrogen output,
+estimation of CO₂ emissions, explanation of influential parameters,
+and automatic generation of AI-assisted sustainability reports for
+decision support.
+"""
+    )
       # ==========================================================
 # PREDICTION PAGE
 # ==========================================================
