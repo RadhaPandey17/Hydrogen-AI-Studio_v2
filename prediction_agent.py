@@ -256,3 +256,9 @@ class PredictionAgent:
         )
 
         return self.run_prediction(row)
+        
+        def predict(self, latitude, longitude):
+            return self.predict_from_coordinates(
+                latitude,
+                longitude
+            )
