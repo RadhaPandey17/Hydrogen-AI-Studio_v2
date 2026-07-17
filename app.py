@@ -12,6 +12,7 @@ from xai_agent import XAIAgent
 from report_agent import ReportAgent
 from pdf_generator import PDFGenerator
 
+from config import APP_VERSION
 from config import *
 
 st.set_page_config(
