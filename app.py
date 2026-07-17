@@ -173,12 +173,11 @@ if "feature_importance" not in st.session_state:
 if "report" not in st.session_state:
 
     st.session_state.report = None
-
 # ==========================================================
 # SIDEBAR
 # ==========================================================
 
-st.sidebar.title("⚡ Hydrogen AI Studio")
+st.sidebar.title("🧪 Hydrogen AI Studio")
 
 page = st.sidebar.radio(
 
@@ -186,13 +185,13 @@ page = st.sidebar.radio(
 
     [
 
-        "Dashboard",
+        "🏠 Dashboard",
 
-        "Prediction",
+        "🔮 Prediction",
 
-        "AI Report",
+        "📄 AI Report",
 
-        "About"
+        "ℹ️ About"
 
     ]
 
@@ -200,25 +199,26 @@ page = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 
-st.sidebar.success(
+st.sidebar.info(
 
-f"""
+    f"""
 
-Version
+### 📌 Application Info
 
-{APP_VERSION}
+**Version:** {APP_VERSION}
 
-Machine Learning
+**Machine Learning**
 
-Voting Regressor
+Voting Regressor Ensemble
 
-AI
+**Generative AI**
 
 Gemini 2.5 Flash
 
-Explainability
+**Explainable AI**
 
-Feature Importance
+Feature Importance Analysis
+
 
 """
 
