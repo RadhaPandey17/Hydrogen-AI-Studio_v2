@@ -60,9 +60,8 @@ PLOT_FOLDER.mkdir(parents=True, exist_ok=True)
 # ==========================================================
 # APP
 # ==========================================================
-
 APP_NAME = "Hydrogen AI Studio"
 
-VERSION = "2.0"
+APP_VERSION = "2.0"
 
 AUTHOR = "Radha Pandey"
