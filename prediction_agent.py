@@ -15,43 +15,24 @@ from config import *
 
 
 class PredictionAgent:
-
     def __init__(self):
         def __init__(self):
-
-    # Load datasets first
-
-    self.india = pd.read_csv(INDIA_DATASET)
-
-    self.global_df = pd.read_csv(GLOBAL_DATASET)
-
-    # Master dataset for coordinate search
-
-    self.master = pd.concat(
-
-        [
-
-            self.india,
-
-            self.global_df
-
-        ],
-
-        ignore_index=True
-
-    )
-    self.model = joblib.load(MODEL_PATH)
-
-    self.scaler = joblib.load(SCALER_PATH)
-
-    self.required_features = joblib.load(FEATURE_PATH)
-        
-
-        self.model = joblib.load(MODEL_PATH)
-
-        self.scaler = joblib.load(SCALER_PATH)
-
-        self.required_features = joblib.load(FEATURE_PATH)
+             # Load datasets first
+            self.india = pd.read_csv(INDIA_DATASET)
+            
+            self.global_df = pd.read_csv(GLOBAL_DATASET)
+            
+            self.master = pd.concat(
+                [
+                    self.india,self.global_df
+                ],
+                ignore_index=True)
+            self.model = joblib.load(MODEL_PATH)
+            self.scaler = joblib.load(SCALER_PATH)
+            self.required_features = joblib.load(FEATURE_PATH)
+            self.model = joblib.load(MODEL_PATH)
+            self.scaler = joblib.load(SCALER_PATH)
+            self.required_features = joblib.load(FEATURE_PATH)
 
     # =======================================================
     # Existing Workflow
