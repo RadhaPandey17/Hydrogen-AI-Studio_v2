@@ -506,7 +506,7 @@ and automatic generation of AI-assisted sustainability reports for
 decision support.
 """
     )
-      # ==========================================================
+# ==========================================================
 # PREDICTION PAGE
 # ==========================================================
 
@@ -515,7 +515,7 @@ elif page == "🔮 Prediction":
     st.title("⚡ Hydrogen Production Prediction")
 
     st.caption(
-        "Choose a prediction mode and provide the required information."
+        "Predict hydrogen production using either geographical coordinates or dataset locations."
     )
 
     st.markdown("---")
@@ -530,9 +530,9 @@ elif page == "🔮 Prediction":
 
         [
 
-            "📍 Location Based",
+            "📍 Latitude / Longitude",
 
-            "🏭 Plant Based (Coming Soon)",
+            "🌍 Country / State",
 
             "⚙ Custom Scenario"
 
@@ -544,11 +544,13 @@ elif page == "🔮 Prediction":
 
     st.markdown("---")
 
+    custom_inputs = None
+
     # =====================================================
-    # LOCATION BASED
+    # MODE 1
     # =====================================================
 
-    if prediction_mode == "📍 Location Based":
+    if prediction_mode == "📍 Latitude / Longitude":
 
         col1, col2 = st.columns(2)
 
@@ -558,7 +560,7 @@ elif page == "🔮 Prediction":
 
                 "Latitude",
 
-                value=23.500,
+                value=23.500000,
 
                 format="%.6f"
 
@@ -570,23 +572,65 @@ elif page == "🔮 Prediction":
 
                 "Longitude",
 
-                value=78.900,
+                value=78.900000,
 
                 format="%.6f"
 
             )
 
-        custom_inputs = None
-
     # =====================================================
-    # CUSTOM SCENARIO
+    # MODE 2
     # =====================================================
 
-    elif prediction_mode == "⚙ Custom Scenario":
+    elif prediction_mode == "🌍 Country / State":
 
-        dataset = prediction_agent.india
+        countries = sorted(
 
-        row = dataset.iloc[0]
+            prediction_agent.master["Country"].dropna().unique()
+
+        )
+
+        country = st.selectbox(
+
+            "Country",
+
+            countries
+
+        )
+
+        state = None
+
+        if country.lower() == "india":
+
+            states = sorted(
+
+                prediction_agent.india["State"]
+
+                .dropna()
+
+                .unique()
+
+            )
+
+            state = st.selectbox(
+
+                "State",
+
+                states
+
+            )
+
+    # =====================================================
+    # MODE 3
+    # =====================================================
+
+    else:
+
+        row = prediction_agent.india.iloc[0].copy()
+
+        st.info(
+            "Modify plant parameters to analyse a custom hydrogen production scenario."
+        )
 
         latitude = st.number_input(
 
@@ -608,11 +652,9 @@ elif page == "🔮 Prediction":
 
         )
 
-        st.markdown("### Modify Plant Parameters")
+        c1, c2 = st.columns(2)
 
-        col1, col2 = st.columns(2)
-
-        with col1:
+        with c1:
 
             solar = st.number_input(
 
@@ -638,7 +680,7 @@ elif page == "🔮 Prediction":
 
             )
 
-        with col2:
+        with c2:
 
             land = st.number_input(
 
@@ -680,97 +722,100 @@ elif page == "🔮 Prediction":
 
         }
 
-    # =====================================================
-    # PLANT MODE
-    # =====================================================
-
-    else:
-
-        st.info(
-
-            "Plant Based Prediction will be added in Version 3."
-
-        )
-
-        latitude = 0.0
-
-        longitude = 0.0
-
-        custom_inputs = None
-
     st.markdown("---")
 
     # =====================================================
-    # Predict Button
+    # RUN PREDICTION
     # =====================================================
 
-    predict_btn = st.button(
+    if st.button(
 
         "🚀 Run AI Prediction",
 
         use_container_width=True
 
-    )
+    ):
 
-    # =====================================================
-    # Prediction
-    # =====================================================
+        with st.spinner("Running Prediction..."):
 
-    if predict_btn:
+            # ----------------------------------------
 
-        with st.spinner("Running AI Prediction..."):
+            if prediction_mode == "📍 Latitude / Longitude":
 
-            try:
+                prediction = (
 
-                prediction = prediction_agent.predict(
+                    prediction_agent.predict_from_coordinates(
 
-                    latitude,
+                        latitude,
 
-                    longitude,
+                        longitude
 
-                    custom_inputs
+                    )
 
                 )
 
-                st.session_state.prediction = prediction
+            elif prediction_mode == "🌍 Country / State":
 
-                explanation = xai_agent.explain(
+                prediction = (
 
-                    prediction["Scaled_Data"],
+                    prediction_agent.predict_from_dataset(
 
-                    prediction_agent.required_features
+                        country,
 
-                )
+                        state
 
-                st.session_state.feature_importance = (
-
-                    explanation["feature_importance"]
+                    )
 
                 )
 
-                st.session_state.report = None
+            else:
 
-                st.success("Prediction Completed Successfully.")
+                prediction = (
 
-            except Exception as e:
+                    prediction_agent.predict_from_coordinates(
 
-                st.exception(e)
+                        latitude,
 
+                        longitude
+
+                    )
+
+                )
+
+            # ----------------------------------------
+
+            xai = xai_agent.explain(
+
+                prediction["Scaled_Data"],
+
+                prediction_agent.required_features
+
+            )
+
+            st.session_state.prediction = prediction
+
+            st.session_state.feature_importance = (
+
+                xai["feature_importance"]
+
+            )
+
+            st.success("Prediction Completed Successfully.")
+                # =====================================================
+    # RESULTS
     # =====================================================
-    # Results
-    # =====================================================
 
-    if st.session_state.prediction is not None:
+    if st.session_state.get("prediction") is not None:
 
         result = st.session_state.prediction
 
         st.markdown("---")
 
-        st.subheader("Prediction Results")
+        st.subheader("📈 Prediction Results")
 
-        a, b, c = st.columns(3)
+        c1, c2, c3 = st.columns(3)
 
-        with a:
+        with c1:
 
             st.metric(
 
@@ -780,27 +825,25 @@ elif page == "🔮 Prediction":
 
             )
 
-        with b:
+        with c2:
 
             st.metric(
 
-                "Estimated CO₂",
+                "Estimated CO₂ Emission",
 
-                f"{result['CO2_Emission']:.2f}"
+                f"{result['CO2_Emission']:.2f} kg CO₂-eq/kg H₂"
 
             )
 
-        with c:
+        with c3:
 
-            sustainability = max(
+            score = max(
 
                 0,
 
                 round(
 
-                    100 -
-
-                    result["CO2_Emission"] * 5,
+                    100 - result["CO2_Emission"] * 5,
 
                     1
 
@@ -812,25 +855,47 @@ elif page == "🔮 Prediction":
 
                 "Sustainability Score",
 
-                f"{sustainability}%"
+                f"{score}%"
 
             )
 
         st.markdown("---")
 
-        st.subheader("Matched Dataset")
+        # =================================================
+        # LOCATION DETAILS
+        # =================================================
 
-        st.dataframe(
+        st.subheader("📍 Selected Location")
 
-            result["Feature_Row"].to_frame(),
+        info1, info2 = st.columns(2)
 
-            use_container_width=True
+        with info1:
 
-        )
+            st.write("**Location**")
+
+            st.success(result["Location"])
+
+            st.write("**Country**")
+
+            st.success(result["Country"])
+
+        with info2:
+
+            st.write("**Latitude**")
+
+            st.info(result["Latitude"])
+
+            st.write("**Longitude**")
+
+            st.info(result["Longitude"])
 
         st.markdown("---")
 
-        st.subheader("Top Influencing Features")
+        # =================================================
+        # FEATURE IMPORTANCE
+        # =================================================
+
+        st.subheader("🔍 Feature Importance")
 
         importance = (
 
@@ -854,7 +919,17 @@ elif page == "🔮 Prediction":
 
             color="Importance",
 
-            template="plotly_white"
+            template="plotly_dark",
+
+            title="Top Influencing Features"
+
+        )
+
+        fig.update_layout(
+
+            height=450,
+
+            showlegend=False
 
         )
 
@@ -868,9 +943,15 @@ elif page == "🔮 Prediction":
 
         st.markdown("---")
 
+        # =================================================
+        # AI REPORT
+        # =================================================
+
+        st.subheader("🤖 AI Sustainability Report")
+
         if st.button(
 
-            "🤖 Generate AI Sustainability Report",
+            "Generate AI Report",
 
             use_container_width=True
 
@@ -878,23 +959,51 @@ elif page == "🔮 Prediction":
 
             with st.spinner(
 
-                "Generating Report..."
+                "Generating report using Gemini..."
 
             ):
 
-                st.session_state.report = (
+                report = report_agent.generate_report(
 
-                    report_agent.generate_report(
+                    result,
 
-                        result,
-
-                        st.session_state.feature_importance
-
-                    )
+                    st.session_state.feature_importance
 
                 )
 
-                st.success("Report Generated Successfully.")
+                st.session_state.report = report
+
+        if st.session_state.get("report"):
+
+            st.markdown(
+
+                st.session_state.report
+
+            )
+
+            st.markdown("---")
+
+            pdf = pdf_generator.generate(
+
+                result,
+
+                st.session_state.report
+
+            )
+
+            st.download_button(
+
+                "📄 Download PDF Report",
+
+                pdf,
+
+                file_name="Hydrogen_AI_Report.pdf",
+
+                mime="application/pdf",
+
+                use_container_width=True
+
+            )
               # ==========================================================
 # AI REPORT PAGE
 # ==========================================================
