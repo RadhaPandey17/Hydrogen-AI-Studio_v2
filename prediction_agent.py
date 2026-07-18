@@ -13,38 +13,31 @@ import pandas as pd
 
 from config import *
 
-
 class PredictionAgent:
+        
         def __init__(self):
-             # Load datasets first
-            self.india = pd.read_csv(INDIA_DATASET)
-            
-            self.global_df = pd.read_csv(GLOBAL_DATASET)
-            
-            self.master = pd.concat(
-                [
-                    self.india,self.global_df
-                ],
-                ignore_index=True)
-            self.model = joblib.load(MODEL_PATH)
-            self.scaler = joblib.load(SCALER_PATH)
-            self.required_features = joblib.load(FEATURE_PATH)
-
-    # =======================================================
-    # Existing Workflow
-    # =======================================================
-    def nearest_location(self, latitude, longitude):
-
-    df = self.master.copy()
-
-    distance = (
-        (df["Latitude"] - latitude) ** 2 +
-        (df["Longitude"] - longitude) ** 2
-    )
-
-    idx = distance.idxmin()
-
-    return df.loc[idx].copy()
+                self.india = pd.read_csv(INDIA_DATASET)
+                self.global_df = pd.read_csv(GLOBAL_DATASET)
+                self.master = pd.concat(
+                        [
+                                self.india,self.global_df
+                        ],
+                        ignore_index=True)
+                self.model = joblib.load(MODEL_PATH)
+                self.scaler = joblib.load(SCALER_PATH)
+                self.required_features = joblib.load(FEATURE_PATH)
+                
+                
+                
+                
+        def nearest_location(self, latitude, longitude):
+                df = self.master.copy()
+            distance = (
+                    (df["Latitude"] - latitude) ** 2 +
+                    (df["Longitude"] - longitude) ** 2
+            )
+            idx = distance.idxmin()
+            return df.loc[idx].copy()
     
     # =======================================================
     # New Workflow
