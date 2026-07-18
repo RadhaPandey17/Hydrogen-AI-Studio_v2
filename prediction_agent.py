@@ -15,7 +15,6 @@ from config import *
 
 
 class PredictionAgent:
-    def __init__(self):
         def __init__(self):
              # Load datasets first
             self.india = pd.read_csv(INDIA_DATASET)
@@ -30,30 +29,23 @@ class PredictionAgent:
             self.model = joblib.load(MODEL_PATH)
             self.scaler = joblib.load(SCALER_PATH)
             self.required_features = joblib.load(FEATURE_PATH)
-            self.model = joblib.load(MODEL_PATH)
-            self.scaler = joblib.load(SCALER_PATH)
-            self.required_features = joblib.load(FEATURE_PATH)
 
     # =======================================================
     # Existing Workflow
     # =======================================================
-
     def nearest_location(self, latitude, longitude):
 
-        df = self.master.copy()
+    df = self.master.copy()
 
-        distance = (
+    distance = (
+        (df["Latitude"] - latitude) ** 2 +
+        (df["Longitude"] - longitude) ** 2
+    )
 
-            (df["Latitude"] - latitude) ** 2 +
+    idx = distance.idxmin()
 
-            (df["Longitude"] - longitude) ** 2
-
-        )
-
-        idx = distance.idxmin()
-
-        return df.loc[idx].copy()
-
+    return df.loc[idx].copy()
+    
     # =======================================================
     # New Workflow
     # =======================================================
