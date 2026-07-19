@@ -577,49 +577,28 @@ elif page == "🔮 Prediction":
                 format="%.6f"
 
             )
-
     # =====================================================
     # MODE 2
     # =====================================================
-
-    elif prediction_mode == "🌍 Country / State":
-
-        countries = sorted(
-
-            prediction_agent.master["Country"].dropna().unique()
-
-        )
-
-        country = st.selectbox(
-
-            "Country",
-
-            countries
-
-        )
-
-        state = None
-
-        if country.lower() == "india":
-
-            states = sorted(
-
-                prediction_agent.india["State"]
-
+    
+    
+    
+    elif prediction_mode == "🌍 Dataset Location":
+        
+        location = st.selectbox(
+            "Select Location",
+            
+            sorted(
+                prediction_agent.master["Location"]
                 .dropna()
-
                 .unique()
-
             )
-
-            state = st.selectbox(
-
-                "State",
-
-                states
-
-            )
-
+        
+        )
+        latitude = None
+        longitude = None
+        custom_inputs = None
+                
     # =====================================================
     # MODE 3
     # =====================================================
