@@ -86,9 +86,6 @@ Generate a professional report including:
 
 Location Information
 
-Country:
-{prediction.get("Country","Unknown")}
-
 Location:
 {prediction.get("Location","Unknown")}
 
