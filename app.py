@@ -389,8 +389,8 @@ generates professional sustainability reports.
         )
 
         st.metric(
-            "Countries",
-            dataset["Country"].nunique()
+            "Locations",
+            dataset["Location"].nunique()
         )
 
         st.metric(
