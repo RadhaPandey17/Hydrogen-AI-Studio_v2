@@ -394,11 +394,6 @@ generates professional sustainability reports.
         )
 
         st.metric(
-            "Locations",
-            dataset["Location"].nunique()
-        )
-
-        st.metric(
             "Average Hydrogen",
             f"{dataset['Hydrogen_Output_kg_day'].mean():.1f} kg/day"
         )
