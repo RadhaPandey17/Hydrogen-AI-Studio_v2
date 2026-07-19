@@ -59,27 +59,14 @@ class PredictionAgent:
     # COUNTRY / STATE MATCHING
     # =======================================================
 
-    def dataset_location(
-        self,
-        country,
-        state=None
-    ):
+    def dataset_location(self, location):
 
-        if country.lower() == "india":
+    row = self.master[
+        self.master["Location"] == location
+    ]
 
-            df = self.india
+    return row.iloc[0].copy()
 
-            row = df[df["State"] == state]
-
-            return row.iloc[0].copy()
-
-        else:
-
-            df = self.global_df
-
-            row = df[df["Country"] == country]
-
-            return row.iloc[0].copy()
 
     # =======================================================
     # FEATURE PREPARATION
@@ -147,7 +134,7 @@ class PredictionAgent:
 
         return {
             "Location": row["Location"],
-            "Country": row["Country"],
+            "Country": row["Location"],
             "Latitude": row["Latitude"],
             "Longitude": row["Longitude"],
             "Hydrogen_Output": round(
@@ -182,23 +169,20 @@ class PredictionAgent:
         )
 
         return self.run_prediction(row)
-
+        
     # =======================================================
     # COUNTRY / STATE MODE
-    # =======================================================
-
-    def predict_from_dataset(
-        self,
-        country,
-        state=None
-    ):
-
-        row = self.dataset_location(
-            country,
-            state
-        )
-
-        return self.run_prediction(row)
+    # =======================================================    
+        
+        
+        def predict_from_dataset(
+            self,
+            location
+        ):
+            row = self.dataset_location(location)
+            
+            return self.run_prediction(row)
+    
 
     # =======================================================
     # BACKWARD COMPATIBILITY
