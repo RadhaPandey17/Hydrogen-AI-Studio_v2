@@ -60,12 +60,11 @@ class PredictionAgent:
     # =======================================================
 
     def dataset_location(self, location):
-
-    row = self.master[
+        row = self.master[
         self.master["Location"] == location
-    ]
-
-    return row.iloc[0].copy()
+        ]
+        
+        return row.iloc[0].copy()
 
 
     # =======================================================
