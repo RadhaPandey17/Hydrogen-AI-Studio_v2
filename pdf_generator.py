@@ -67,10 +67,6 @@ class PDFGenerator:
 
         )
 
-    
-
-        )
-
         story.append(
 
             Paragraph(
