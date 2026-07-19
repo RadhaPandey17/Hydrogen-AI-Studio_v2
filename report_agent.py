@@ -1,15 +1,11 @@
 """
-Hydrogen AI Studio v2
-Gemini Report Agent
+Gemini AI Report Agent
 """
 
 from google import genai
 
-from config import (
-    GOOGLE_API_KEY,
-    GEMINI_MODEL,
-    PROMPT_PATH,
-)
+from config import GOOGLE_API_KEY
+from config import GEMINI_MODEL
 
 
 class ReportAgent:
@@ -20,41 +16,7 @@ class ReportAgent:
             api_key=GOOGLE_API_KEY
         )
 
-        if PROMPT_PATH.exists():
-
-            with open(
-                PROMPT_PATH,
-                "r",
-                encoding="utf-8"
-            ) as f:
-
-                self.system_prompt = f.read()
-
-        else:
-
-            self.system_prompt = """
-You are a Hydrogen Sustainability Expert.
-
-Generate a professional report including:
-
-1. Executive Summary
-
-2. Selected Location
-
-3. Hydrogen Production Prediction
-
-4. Environmental Impact
-
-5. Explainable AI Interpretation
-
-6. Sustainability Assessment
-
-7. Recommendations
-
-8. Conclusion
-"""
-
-    # ======================================================
+    # -----------------------------------------------------
 
     def generate_report(
 
@@ -66,34 +28,41 @@ Generate a professional report including:
 
     ):
 
-        top = feature_importance.head(8)
+        top_features = feature_importance.head(8)
 
         feature_text = ""
 
-        for _, row in top.iterrows():
+        for _, row in top_features.iterrows():
 
             feature_text += (
 
-                f"- {row['Feature']} "
+                f"- {row['Feature']} : "
 
-                f"({round(float(row['Importance']),4)})\n"
+                f"{round(float(row['Contribution']),2)}%\n"
 
             )
 
         prompt = f"""
 
-{self.system_prompt}
+You are a Hydrogen Sustainability Expert.
 
-Location Information
+Generate a professional technical report.
 
-Location:
-{prediction.get("Location","Unknown")}
+--------------------------------------------
 
-Latitude:
-{prediction.get("Latitude")}
+Selected Location
 
-Longitude:
-{prediction.get("Longitude")}
+{prediction["Location"]}
+
+Latitude
+
+{prediction["Latitude"]}
+
+Longitude
+
+{prediction["Longitude"]}
+
+--------------------------------------------
 
 Predicted Hydrogen Production
 
@@ -103,11 +72,30 @@ Estimated CO₂ Emission
 
 {prediction["CO2_Emission"]} kg CO₂-eq/kg H₂
 
-Important Features
+--------------------------------------------
+
+Most Important Features
 
 {feature_text}
 
-Generate the report.
+--------------------------------------------
+
+Generate sections:
+
+1 Executive Summary
+
+2 Prediction Analysis
+
+3 Environmental Impact
+
+4 Explainable AI Interpretation
+
+5 Sustainability Assessment
+
+6 Recommendations
+
+7 Conclusion
+
 """
 
         try:
@@ -126,19 +114,27 @@ Generate the report.
 
             return f"""
 
-Gemini Report Generation Failed
+# Gemini Report Failed
 
 Reason
 
-{e}
+{str(e)}
+
+--------------------------------
 
 Prediction Summary
 
-Location:
-{prediction.get("Location")}
+Location
 
-Country:
-{prediction.get("Country")}
+{prediction["Location"]}
+
+Latitude
+
+{prediction["Latitude"]}
+
+Longitude
+
+{prediction["Longitude"]}
 
 Hydrogen Production
 
@@ -147,4 +143,5 @@ Hydrogen Production
 Estimated CO₂
 
 {prediction["CO2_Emission"]} kg CO₂-eq/kg H₂
+
 """
