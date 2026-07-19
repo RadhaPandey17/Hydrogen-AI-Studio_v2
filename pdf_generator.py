@@ -67,15 +67,7 @@ class PDFGenerator:
 
         )
 
-        story.append(
-
-            Paragraph(
-
-                f"<b>Country :</b> {prediction['Country']}",
-
-                self.styles["BodyText"]
-
-            )
+    
 
         )
 
