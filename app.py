@@ -735,7 +735,7 @@ elif page == "🔮 Prediction":
 # RUN PREDICTION
 # =====================================================
 
-if st.button(
+    if st.button(
 
     "🚀 Run AI Prediction",
 
@@ -996,6 +996,7 @@ if st.session_state.prediction is not None:
             use_container_width=True
 
         )
+
 # ==========================================================
 # AI REPORT PAGE
 # ==========================================================
