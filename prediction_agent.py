@@ -93,23 +93,43 @@ class PredictionAgent:
 
     def get_global_countries(self):
 
-        countries = []
+    countries = set()
 
-        for loc in self.global_df["Location"]:
+    for loc in self.global_df["Location"].dropna():
 
-            if "," in str(loc):
+        text = str(loc)
 
-                country = str(loc).split(",")[-1].strip()
+        if "," in text:
+            country = text.split(",")[-1].strip()
 
-            else:
+        elif "(" in text:
+            country = text.split("(")[0].strip()
 
-                country = str(loc).strip()
+        else:
+            country = text.strip()
 
-            countries.append(country)
+        # Ignore Indian cities
+        if country.lower() in [
+            "angul",
+            "bokaro",
+            "bhuj",
+            "kota",
+            "bengaluru",
+            "hyderabad",
+            "kolkata",
+            "chennai",
+            "faridabad",
+            "babrala",
+            "dahej",
+            "vijaynagar",
+            "lonavla",
+            "leh"
+        ]:
+            continue
 
-        countries = sorted(list(set(countries)))
+        countries.add(country)
 
-        return countries
+    return sorted(list(countries))
 
     # ==========================================================
     # Global Selection
@@ -117,15 +137,15 @@ class PredictionAgent:
 
     def global_location(self, country):
 
-        for _, row in self.global_df.iterrows():
+    for _, row in self.global_df.iterrows():
 
-            location = str(row["Location"])
+        location = str(row["Location"])
 
-            if country.lower() in location.lower():
+        if country.lower() in location.lower():
 
-                return row.copy()
+            return row.copy()
 
-        return self.global_df.iloc[0].copy()
+    return self.global_df.iloc[0].copy()
 
     # ==========================================================
     # Feature Engineering
@@ -189,51 +209,28 @@ class PredictionAgent:
    # ==========================================================
     # Run Prediction
     # ==========================================================
+    return {
 
+    "Location": row["Location"],
+
+    "Latitude": float(row["Latitude"]),
+
+    "Longitude": float(row["Longitude"]),
+
+    "Hydrogen_Output": round(float(hydrogen),2),
+
+    "CO2_Emission": round(
+        float(row["LCA_GWP_kg_CO2_eq_per_kg_H2"]),
+        2
+    ),
+
+    "Matched_Row": row,
+
+    "Scaled_Data": scaled
+
+}
     
-    def run_prediction(self, row):
-        
-        scaled = self.prepare_features(row)
-        
-        prediction = float(
-            
-            self.model.predict(scaled)[0]
-        )
-        
-        
-        if prediction < 50:
-            
-            hydrogen = np.expm1(prediction)
-        
-        else:
-            hydrogen = prediction
-
-        return {
-
-            "Location": row["Location"],
-
-            "Latitude": row["Latitude"],
-
-            "Longitude": row["Longitude"],
-
-            "Hydrogen_Output": round(
-                float(hydrogen),
-                2
-            ),
-
-            "CO2_Emission": round(
-                float(
-                    row["LCA_GWP_kg_CO2_eq_per_kg_H2"]
-                ),
-                2
-            ),
-
-            "Feature_Row": row,
-
-            "Scaled_Data": scaled
-
-        }
-
+    
     # ==========================================================
     # Mode 1
     # Latitude / Longitude
