@@ -518,24 +518,21 @@ elif page == "🔮 Prediction":
     # =====================================================
     # Prediction Mode
     # =====================================================
-
     prediction_mode = st.radio(
 
-        "Prediction Mode",
+    "Prediction Mode",
 
-        [
+    [
 
-            "📍 Latitude / Longitude",
+        "📍 Latitude / Longitude",
 
-            "🌍 Country / State",
+        "👤 User Based Prediction"
 
-            "⚙ Custom Scenario"
+    ],
 
-        ],
+    horizontal=True
 
-        horizontal=True
-
-    )
+)
 
     st.markdown("---")
 
@@ -545,33 +542,34 @@ elif page == "🔮 Prediction":
     # MODE 1
     # =====================================================
 
-    if prediction_mode == "📍 Latitude / Longitude":
+    # ---------------------------------------------
 
-        col1, col2 = st.columns(2)
+if prediction_mode == "📍 Latitude / Longitude":
 
-        with col1:
+    prediction = prediction_agent.predict_from_coordinates(
 
-            latitude = st.number_input(
+        latitude,
 
-                "Latitude",
+        longitude
 
-                value=23.500000,
+    )
 
-                format="%.6f"
+elif dataset_choice == "India Dataset":
 
-            )
+    prediction = prediction_agent.predict_india_custom(
 
-        with col2:
+        custom_inputs
 
-            longitude = st.number_input(
+    )
 
-                "Longitude",
+else:
 
-                value=78.900000,
+    prediction = prediction_agent.predict_from_global(
 
-                format="%.6f"
+        country
 
-            )
+    )
+               
     # =====================================================
     # MODE 2
     # =====================================================
