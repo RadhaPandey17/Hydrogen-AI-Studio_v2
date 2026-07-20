@@ -574,23 +574,14 @@ else:
     # MODE 2
     # =====================================================
     
-    
-    
     elif prediction_mode == "🌍 Dataset Location":
-        
-        location = st.selectbox(
-            "Select Location",
-            
-            sorted(
-                prediction_agent.master["Location"]
-                .dropna()
-                .unique()
-            )
-        
-        )
-        latitude = None
-        longitude = None
-        custom_inputs = None
+    
+    location = st.selectbox("Select Location",
+                            sorted(prediction_agent.master["Location"].dropna().unique())
+                           )
+    latitude = None
+    longitude = None
+    custom_inputs = None
                 
     # =====================================================
     # MODE 3
