@@ -206,38 +206,28 @@ page = st.sidebar.radio(
 st.sidebar.markdown("---")
 
 st.sidebar.success(
+    f"""
+    ### 📌 Application Information
 
-f"""
+    **Version**
+    {APP_VERSION}
 
-### 📌 Application Information
+    ---
 
-**Version**
+    **Machine Learning**
+    Voting Regressor Ensemble
 
-{APP_VERSION}
+    ---
 
----
+    **Generative AI**
+    Gemini
 
-**Machine Learning**
+    ---
 
-Voting Regressor Ensemble
-
----
-
-**Generative AI**
-
-Gemini
-
----
-
-**Explainable AI**
-
-Feature Importance Analysis
-
-"""
-# ==========================================================
-# DASHBOARD
-# ==========================================================
-
+    **Explainable AI**
+    Feature Importance Analysis
+    """
+)
 if page == "🏠 Dashboard":
     st.markdown(
         """
