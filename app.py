@@ -239,7 +239,7 @@ Feature Importance Analysis
 # ==========================================================
 
 if page == "🏠 Dashboard":
-st.markdown(
+    st.markdown(
         """
         <div class="big-title">
         ⚡ Hydrogen Production AI Studio
