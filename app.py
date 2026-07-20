@@ -517,3 +517,724 @@ professional AI-assisted sustainability reports for decision support.
 
 
 )
+# ==========================================================
+# PREDICTION PAGE
+# ==========================================================
+
+elif page == "🔮 Prediction":
+
+    st.title("⚡ Hydrogen Production Prediction")
+
+    st.caption(
+        "Predict hydrogen production using Machine Learning."
+    )
+
+    st.markdown("---")
+
+    # =====================================================
+    # Prediction Mode
+    # =====================================================
+
+    prediction_mode = st.radio(
+
+        "Prediction Mode",
+
+        [
+
+            "📍 Latitude / Longitude",
+
+            "👤 User Based Prediction"
+
+        ],
+
+        horizontal=True
+
+    )
+
+    st.markdown("---")
+
+    custom_inputs = None
+    selected_location = None
+    dataset_choice = None
+
+    # =====================================================
+    # MODE 1
+    # Latitude / Longitude
+    # =====================================================
+
+    if prediction_mode == "📍 Latitude / Longitude":
+
+        st.subheader("📍 Coordinate Based Prediction")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            latitude = st.number_input(
+
+                "Latitude",
+
+                value=23.500000,
+
+                format="%.6f"
+
+            )
+
+        with col2:
+
+            longitude = st.number_input(
+
+                "Longitude",
+
+                value=78.900000,
+
+                format="%.6f"
+
+            )
+
+    # =====================================================
+    # MODE 2
+    # User Based
+    # =====================================================
+
+    else:
+
+        st.subheader("👤 User Based Prediction")
+
+        dataset_choice = st.radio(
+
+            "Select Dataset",
+
+            [
+
+                "India Dataset",
+
+                "Global Dataset"
+
+            ],
+
+            horizontal=True
+
+        )
+
+        # ================================================
+        # INDIA DATASET
+        # ================================================
+
+        if dataset_choice == "India Dataset":
+
+            row = prediction_agent.india_default_row()
+
+            st.info(
+                "Modify the hydrogen production parameters."
+            )
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+
+                electrolyzer = st.number_input(
+
+                    "Electrolyzer Capacity (MW)",
+
+                    value=float(
+                        row["Electrolyzer_Capacity_MW"]
+                    )
+
+                )
+
+                capacity_factor = st.number_input(
+
+                    "Capacity Factor (%)",
+
+                    value=float(
+                        row["Capacity_Factor_Percent"]
+                    )
+
+                )
+
+            with col2:
+
+                water = st.number_input(
+
+                    "Water Requirement (L/kg H₂)",
+
+                    value=float(
+                        row["Water_Liters_per_kg"]
+                    )
+
+                )
+
+                production = st.selectbox(
+
+                    "Production Pathway",
+
+                    sorted(
+                        prediction_agent.master[
+                            "Production_Pathway"
+                        ].dropna().unique()
+                    ),
+
+                    index=list(
+
+                        sorted(
+                            prediction_agent.master[
+                                "Production_Pathway"
+                            ].dropna().unique()
+                        )
+
+                    ).index(
+                        row["Production_Pathway"]
+                    )
+
+                )
+
+                power = st.selectbox(
+
+                    "Power Source",
+
+                    sorted(
+                        prediction_agent.master[
+                            "Power_Source"
+                        ].dropna().unique()
+                    ),
+
+                    index=list(
+
+                        sorted(
+                            prediction_agent.master[
+                                "Power_Source"
+                            ].dropna().unique()
+                        )
+
+                    ).index(
+                        row["Power_Source"]
+                    )
+
+                )
+
+            custom_inputs = {
+
+                "Electrolyzer_Capacity_MW": electrolyzer,
+
+                "Capacity_Factor_Percent": capacity_factor,
+
+                "Water_Liters_per_kg": water,
+
+                "Production_Pathway": production,
+
+                "Power_Source": power
+
+            }
+
+        # ================================================
+        # GLOBAL DATASET
+        # ================================================
+
+        else:
+
+            countries = prediction_agent.get_global_countries()
+
+            selected_country = st.selectbox(
+
+                "Select Country",
+
+                countries
+
+            )
+
+            selected_location = selected_country
+
+    st.markdown("---")
+# =====================================================
+# RUN PREDICTION
+# =====================================================
+
+if st.button(
+
+    "🚀 Run AI Prediction",
+
+    use_container_width=True
+
+):
+
+    with st.spinner("Running Machine Learning Model..."):
+
+        # ---------------------------------------------
+        # Latitude / Longitude
+        # ---------------------------------------------
+
+        if prediction_mode == "📍 Latitude / Longitude":
+
+            prediction = prediction_agent.predict_from_coordinates(
+
+                latitude,
+
+                longitude
+
+            )
+
+        # ---------------------------------------------
+        # User Based
+        # ---------------------------------------------
+
+        else:
+
+            if dataset_choice == "India Dataset":
+
+                prediction = prediction_agent.predict_india_custom(
+
+                    custom_inputs
+
+                )
+
+            else:
+
+                prediction = prediction_agent.predict_from_global(
+
+                    selected_location
+
+                )
+
+        # ---------------------------------------------
+        # Explainability
+        # ---------------------------------------------
+
+        xai = xai_agent.explain(
+
+            prediction["Scaled_Data"],
+
+            prediction_agent.required_features
+
+        )
+
+        st.session_state.prediction = prediction
+
+        st.session_state.feature_importance = xai["feature_importance"]
+
+        st.success("Prediction Completed Successfully.")
+
+# =====================================================
+# RESULTS
+# =====================================================
+
+if st.session_state.prediction is not None:
+
+    result = st.session_state.prediction
+
+    st.markdown("---")
+
+    st.subheader("📈 Prediction Results")
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+
+        st.metric(
+
+            "Hydrogen Production",
+
+            f"{result['Hydrogen_Output']:.2f} kg/day"
+
+        )
+
+    with c2:
+
+        st.metric(
+
+            "Estimated CO₂",
+
+            f"{result['CO2_Emission']:.2f} kg CO₂-eq/kg H₂"
+
+        )
+
+    with c3:
+
+        score = max(
+
+            0,
+
+            round(
+
+                100 - result["CO2_Emission"] * 5,
+
+                1
+
+            )
+
+        )
+
+        st.metric(
+
+            "Sustainability Score",
+
+            f"{score}%"
+
+        )
+
+    st.markdown("---")
+
+    # =====================================================
+    # MATCHED DATASET DETAILS
+    # =====================================================
+
+    st.subheader("📍 Matched Dataset Record")
+
+    st.dataframe(
+
+        result["Feature_Row"].to_frame(),
+
+        use_container_width=True
+
+    )
+
+    st.markdown("---")
+
+    # =====================================================
+    # FEATURE IMPORTANCE
+    # =====================================================
+
+    st.subheader("🔍 Top Influencing Features")
+
+    importance = (
+
+        st.session_state.feature_importance
+
+        .head(10)
+
+        .sort_values(
+
+            "Importance"
+
+        )
+
+    )
+
+    fig = px.bar(
+
+        importance,
+
+        x="Importance",
+
+        y="Feature",
+
+        orientation="h",
+
+        color="Importance",
+
+        template="plotly_dark",
+
+        title="Feature Importance"
+
+    )
+
+    fig.update_layout(
+
+        height=450,
+
+        showlegend=False
+
+    )
+
+    st.plotly_chart(
+
+        fig,
+
+        use_container_width=True
+
+    )
+
+    st.markdown("---")
+
+    # =====================================================
+    # GENERATE AI REPORT
+    # =====================================================
+
+    if st.button(
+
+        "🤖 Generate AI Sustainability Report",
+
+        use_container_width=True
+
+    ):
+
+        with st.spinner(
+
+            "Generating Gemini Report..."
+
+        ):
+
+            report = report_agent.generate_report(
+
+                result,
+
+                st.session_state.feature_importance
+
+            )
+
+            st.session_state.report = report
+
+        st.success(
+
+            "AI Report Generated Successfully."
+
+        )
+
+        st.markdown("---")
+
+        st.subheader("📄 AI Sustainability Report")
+
+        st.markdown(
+
+            st.session_state.report
+
+        )
+
+        pdf_buffer = pdf_generator.generate(
+
+            result,
+
+            st.session_state.report
+
+        )
+
+        st.download_button(
+
+            "📥 Download PDF Report",
+
+            data=pdf_buffer,
+
+            file_name="Hydrogen_AI_Report.pdf",
+
+            mime="application/pdf",
+
+            use_container_width=True
+
+        )
+# ==========================================================
+# AI REPORT PAGE
+# ==========================================================
+
+elif page == "📄 AI Report":
+
+    st.title("🤖 AI Sustainability Report")
+
+    st.caption(
+        "Professional sustainability assessment generated using Google Gemini."
+    )
+
+    st.markdown("---")
+
+    if st.session_state.prediction is None:
+
+        st.warning(
+
+            "No prediction available.\n\nPlease run a prediction first."
+
+        )
+
+    elif st.session_state.report is None:
+
+        st.info(
+
+            "Prediction completed.\n\nClick **Generate AI Report** on the Prediction page."
+
+        )
+
+    else:
+
+        report_tab, pdf_tab = st.tabs(
+
+            [
+
+                "📄 AI Report",
+
+                "📥 Download PDF"
+
+            ]
+
+        )
+
+        with report_tab:
+
+            st.markdown(
+
+                st.session_state.report
+
+            )
+
+        with pdf_tab:
+
+            pdf_buffer = pdf_generator.generate(
+
+                st.session_state.prediction,
+
+                st.session_state.report
+
+            )
+
+            st.download_button(
+
+                "📄 Download Sustainability Report",
+
+                data=pdf_buffer,
+
+                file_name="Hydrogen_AI_Report.pdf",
+
+                mime="application/pdf",
+
+                use_container_width=True
+
+            )
+
+# ==========================================================
+# ABOUT PAGE
+# ==========================================================
+
+elif page == "ℹ️ About":
+
+    st.title("ℹ About Hydrogen AI Studio")
+
+    st.markdown("---")
+
+    left, right = st.columns([2,1])
+
+    with left:
+
+        st.markdown("""
+
+### Hydrogen AI Studio
+
+Hydrogen AI Studio is an intelligent decision-support platform for
+Machine Learning Assisted Life Cycle Assessment (LCA) of hydrogen
+production pathways.
+
+The application combines:
+
+- Machine Learning
+- Explainable AI
+- Google Gemini AI
+- Sustainability Assessment
+- PDF Report Generation
+
+to support environmentally sustainable hydrogen production decisions.
+
+---
+
+### Major Features
+
+• Hydrogen Production Prediction
+
+• CO₂ Emission Estimation
+
+• Explainable AI
+
+• Gemini AI Sustainability Report
+
+• Professional PDF Export
+
+---
+
+### Technologies
+
+- Python
+
+- Streamlit
+
+- Scikit-Learn
+
+- Voting Regressor
+
+- Plotly
+
+- Google Gemini
+
+- ReportLab
+
+---
+
+### Developed By
+
+**Radha Pandey**
+
+Department of Hydro & Renewable Energy
+
+Indian Institute of Technology Roorkee
+
+""")
+
+    with right:
+
+        st.metric(
+
+            "Version",
+
+            APP_VERSION
+
+        )
+
+        st.metric(
+
+            "Prediction Model",
+
+            "Voting Regressor"
+
+        )
+
+        st.metric(
+
+            "Explainability",
+
+            "Feature Importance"
+
+        )
+
+        st.metric(
+
+            "LLM",
+
+            GEMINI_MODEL
+
+        )
+
+        st.metric(
+
+            "PDF Reports",
+
+            "Available"
+
+        )
+
+# ==========================================================
+# FOOTER
+# ==========================================================
+
+st.markdown("---")
+
+st.markdown(
+
+f"""
+
+<div class="footer">
+
+<b>{APP_NAME}</b>
+
+<br><br>
+
+Machine Learning • Explainable AI • Google Gemini • Sustainability Analytics
+
+<br><br>
+
+Version {APP_VERSION}
+
+<br><br>
+
+Developed by <b>Radha Pandey</b>
+
+</div>
+
+""",
+
+unsafe_allow_html=True
+
+)
