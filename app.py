@@ -734,266 +734,126 @@ elif page == "🔮 Prediction":
 # =====================================================
 
     if st.button(
-
-    "🚀 Run AI Prediction",
-
-    use_container_width=True
-
-):
-
-    with st.spinner("Running Machine Learning Model..."):
-
-        # ---------------------------------------------
-        # Latitude / Longitude
-        # ---------------------------------------------
-
-        if prediction_mode == "📍 Latitude / Longitude":
-
-            prediction = prediction_agent.predict_from_coordinates(
-
-                latitude,
-
-                longitude
-
-            )
-
-        # ---------------------------------------------
-        # User Based
-        # ---------------------------------------------
-
-        else:
-
-            if dataset_choice == "India Dataset":
-
-                prediction = prediction_agent.predict_india_custom(
-
-                    custom_inputs
-
-                )
-
-            else:
-
-                prediction = prediction_agent.predict_from_global(
-
-                    selected_location
-
-                )
-
-        # ---------------------------------------------
+        "🚀 Run AI Prediction",
+        use_container_width=True):
+            with st.spinner("Running Machine Learning Model..."):
+                if prediction_mode == "📍 Latitude / Longitude":
+                    prediction = prediction_agent.predict_from_coordinates(latitude,longitude)
+                else:
+                    if dataset_choice == "India Dataset":
+                        prediction = prediction_agent.predict_india_custom(
+                            custom_inputs
+                        )
+                    else:
+                        prediction = prediction_agent.predict_from_global(
+                            selected_location
+                        )
+         # ---------------------------------------------
         # Explainability
-        # ---------------------------------------------
-
-        xai = xai_agent.explain(
-
-            prediction["Scaled_Data"],
-
-            prediction_agent.required_features
-
-        )
-
-        st.session_state.prediction = prediction
-
-        st.session_state.feature_importance = xai["feature_importance"]
-
-        st.success("Prediction Completed Successfully.")
-
-# =====================================================
-# RESULTS
-# =====================================================
-
-if st.session_state.prediction is not None:
-
-    result = st.session_state.prediction
-
-    st.markdown("---")
-
-    st.subheader("📈 Prediction Results")
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-
-        st.metric(
-
-            "Hydrogen Production",
-
-            f"{result['Hydrogen_Output']:.2f} kg/day"
-
-        )
-
-    with c2:
-
-        st.metric(
-
-            "Estimated CO₂",
-
-            f"{result['CO2_Emission']:.2f} kg CO₂-eq/kg H₂"
-
-        )
-
-    with c3:
-
-        score = max(
-
-            0,
-
-            round(
-
-                100 - result["CO2_Emission"] * 5,
-
-                1
-
-            )
-
-        )
-
-        st.metric(
-
-            "Sustainability Score",
-
-            f"{score}%"
-
-        )
-
-    st.markdown("---")
-
+        # --------------------------------------------  
+                        xai = xai_agent.explain(
+                            prediction["Scaled_Data"],prediction_agent.required_features)
+                        st.session_state.prediction = prediction
+                        st.session_state.feature_importance = xai["feature_importance"]
+                        st.success("Prediction Completed Successfully.")
+                      # =====================================================
+                      # RESULTS
+                      # =====================================================  
+                        
+                        
+                        if st.session_state.prediction is not None:
+                            result = st.session_state.prediction
+                            st.markdown("---")
+                            st.subheader("📈 Prediction Results")
+                            c1, c2, c3 = st.columns(3)
+                            with c1:
+                                st.metric(
+                                    "Hydrogen Production",f"{result['Hydrogen_Output']:.2f} kg/day"
+                                )
+                                with c2:
+                                    st.metric("Estimated CO₂",
+                                              f"{result['CO2_Emission']:.2f} kg CO₂-eq/kg H₂"
+                                             )
+                                    with c3:
+                                        score = max(
+                                            0,
+                                            round(
+                                                100 - result["CO2_Emission"] * 5,1
+                                            )
+                                        )
+                                        st.metric("Sustainability Score",
+                                                  f"{score}%"
+                                                 )                                  
     # =====================================================
     # MATCHED DATASET DETAILS
     # =====================================================
 
-    st.subheader("📍 Matched Dataset Record")
-
-    st.dataframe(
-
-        result["Feature_Row"].to_frame(),
-
-        use_container_width=True
-
-    )
-
-    st.markdown("---")
-
+                                        st.markdown("---")
+                                        st.subheader("📍 Matched Dataset Record")
+                                        st.dataframe(
+                                            result["Feature_Row"].to_frame(),
+                                            use_container_width=True
+                                        )
+                                        st.markdown("---")
     # =====================================================
     # FEATURE IMPORTANCE
     # =====================================================
 
-    st.subheader("🔍 Top Influencing Features")
-
-    importance = (
-
-        st.session_state.feature_importance
-
-        .head(10)
-
-        .sort_values(
-
-            "Importance"
-
-        )
-
-    )
-
-    fig = px.bar(
-
-        importance,
-
-        x="Importance",
-
-        y="Feature",
-
-        orientation="h",
-
-        color="Importance",
-
-        template="plotly_dark",
-
-        title="Feature Importance"
-
-    )
-
-    fig.update_layout(
-
-        height=450,
-
-        showlegend=False
-
-    )
-
-    st.plotly_chart(
-
-        fig,
-
-        use_container_width=True
-
-    )
-
-    st.markdown("---")
-
-    # =====================================================
+                                        
+                                        
+                                        st.subheader("🔍 Top Influencing Features")
+                                        importance = (
+                                            st.session_state.feature_importance
+                                            .head(10)
+                                            .sort_values(
+                                                "Importance"
+                                            )
+                                        )
+                                        fig = px.bar(
+                                            importance,
+                                            x="Importance",
+                                            y="Feature",orientation="h",
+                                            color="Importance",
+                                            template="plotly_dark",
+                                            title="Feature Importance"
+                                        )
+                                        fig.update_layout(
+                                            height=450,
+                                            showlegend=False
+                                        )
+                                        st.plotly_chart(
+                                            fig,
+                                            use_container_width=True
+                                        )
+                                        st.markdown("---")
+      # =====================================================
     # GENERATE AI REPORT
     # =====================================================
-
-    if st.button(
-
-        "🤖 Generate AI Sustainability Report",
-
-        use_container_width=True
-
-    ):
-
-        with st.spinner(
-
-            "Generating Gemini Report..."
-
-        ):
-
-            report = report_agent.generate_report(
-
-                result,
-
-                st.session_state.feature_importance
-
-            )
-
-            st.session_state.report = report
-
-        st.success(
-
-            "AI Report Generated Successfully."
-
-        )
-
-        st.markdown("---")
-
-        st.subheader("📄 AI Sustainability Report")
-
-        st.markdown(
-
-            st.session_state.report
-
-        )
-
-        pdf_buffer = pdf_generator.generate(
-
-            result,
-
-            st.session_state.report
-
-        )
-
-        st.download_button(
-
-            "📥 Download PDF Report",
-
-            data=pdf_buffer,
-
-            file_name="Hydrogen_AI_Report.pdf",
-
-            mime="application/pdf",
-
-            use_container_width=True
-
-        )
+                                        if st.button(
+                                            "🤖 Generate AI Sustainability Report",
+                                            use_container_width=True
+                                        ):
+                                            with st.spinner(
+                                                "Generating Gemini Report..."
+                                            ):
+                                                report = report_agent.generate_report(
+                                                    result,st.session_state.feature_importance)
+                                                
+                                                st.session_state.report = report
+                                                st.success("AI Report Generated Successfully.")
+                                                st.markdown("---")
+                                                st.subheader("📄 AI Sustainability Report")
+                                                st.markdown(
+                                                    st.session_state.report
+                                                )
+                                                pdf_buffer = pdf_generator.generate(result,st.session_state.report)
+                                                st.download_button(
+                                                    "📥 Download PDF Report",
+                                                    data=pdf_buffer,
+                                                    file_name="Hydrogen_AI_Report.pdf",
+                                                    mime="application/pdf",
+                                                    use_container_width=True
+                                                )
 
 # ==========================================================
 # AI REPORT PAGE
