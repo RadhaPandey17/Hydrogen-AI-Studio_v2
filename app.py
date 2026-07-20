@@ -538,135 +538,92 @@ elif page == "🔮 Prediction":
 
     custom_inputs = None
 
-    # =====================================================
-    # MODE 1
-    # =====================================================
-
-    # ---------------------------------------------
+   # =====================================================
+# MODE 1 : LATITUDE / LONGITUDE
+# =====================================================
 
 if prediction_mode == "📍 Latitude / Longitude":
 
-    prediction = prediction_agent.predict_from_coordinates(
+    col1, col2 = st.columns(2)
 
-        latitude,
+    with col1:
+        latitude = st.number_input(
+            "Latitude",
+            value=23.500,
+            format="%.6f"
+        )
 
-        longitude
+    with col2:
+        longitude = st.number_input(
+            "Longitude",
+            value=78.900,
+            format="%.6f"
+        )
 
-    )
+    custom_inputs = None
+    dataset_choice = None
+    selected_location = None
 
-elif dataset_choice == "India Dataset":
 
-    prediction = prediction_agent.predict_india_custom(
-
-        custom_inputs
-
-    )
+# =====================================================
+# MODE 2 : USER BASED
+# =====================================================
 
 else:
 
-    prediction = prediction_agent.predict_from_global(
+    dataset_choice = st.radio(
 
-        country
+        "Select Dataset",
+
+        [
+
+            "India Dataset",
+
+            "Global Dataset"
+
+        ],
+
+        horizontal=True
 
     )
-               
-    # =====================================================
-    # MODE 2
-    # =====================================================
-    
-    elif prediction_mode == "🌍 Dataset Location":
-    
-    location = st.selectbox("Select Location",
-                            sorted(prediction_agent.master["Location"].dropna().unique())
-                           )
-    latitude = None
-    longitude = None
-    custom_inputs = None
-                
-    # =====================================================
-    # MODE 3
-    # =====================================================
 
-    else:
+    # ---------------- INDIA ----------------
 
-        row = prediction_agent.india.iloc[0].copy()
+    if dataset_choice == "India Dataset":
 
-        st.info(
-            "Modify plant parameters to analyse a custom hydrogen production scenario."
-        )
+        row = prediction_agent.india_default_row()
 
-        latitude = st.number_input(
-
-            "Latitude",
-
-            value=float(row["Latitude"]),
-
-            format="%.6f"
-
-        )
-
-        longitude = st.number_input(
-
-            "Longitude",
-
-            value=float(row["Longitude"]),
-
-            format="%.6f"
-
-        )
+        st.info("Modify the plant parameters.")
 
         c1, c2 = st.columns(2)
 
         with c1:
 
             solar = st.number_input(
-
                 "Solar Irradiance",
-
                 value=float(row["Solar_Irradiance"])
-
             )
 
             wind = st.number_input(
-
                 "Wind Speed",
-
                 value=float(row["Wind_Speed"])
-
             )
 
             water = st.number_input(
-
-                "Water Availability",
-
-                value=float(row["Water_Availability"])
-
+                "Water L/kg H₂",
+                value=float(row["Water_Liters_per_kg"])
             )
 
         with c2:
 
-            land = st.number_input(
-
-                "Land Availability",
-
-                value=float(row["Land_Availability"])
-
+            capacity = st.number_input(
+                "Electrolyzer Capacity (MW)",
+                value=float(row["Electrolyzer_Capacity_MW"])
             )
 
-            renewable = st.number_input(
-
-                "Renewable Capacity (MW)",
-
-                value=float(row["Renewable_Capacity_MW"])
-
-            )
-
-            demand = st.number_input(
-
-                "Industrial Demand",
-
-                value=float(row["Industrial_Demand"])
-
+            factor = st.number_input(
+                "Capacity Factor (%)",
+                value=float(row["Capacity_Factor_Percent"])
             )
 
         custom_inputs = {
@@ -675,96 +632,108 @@ else:
 
             "Wind_Speed": wind,
 
-            "Water_Availability": water,
+            "Water_Liters_per_kg": water,
 
-            "Land_Availability": land,
+            "Electrolyzer_Capacity_MW": capacity,
 
-            "Renewable_Capacity_MW": renewable,
-
-            "Industrial_Demand": demand
+            "Capacity_Factor_Percent": factor
 
         }
 
-    st.markdown("---")
+        selected_location = None
 
-    # =====================================================
-    # RUN PREDICTION
-    # =====================================================
+    # ---------------- GLOBAL ----------------
 
-    if st.button(
+    else:
 
-        "🚀 Run AI Prediction",
+        selected_location = st.selectbox(
 
-        use_container_width=True
+            "Select Global Location",
 
-    ):
+            sorted(
 
-        with st.spinner("Running Prediction..."):
+                prediction_agent.global_df["Location"]
 
-            # ----------------------------------------
+                .dropna()
 
-            if prediction_mode == "📍 Latitude / Longitude":
+                .unique()
 
-                prediction = (
+            )
 
-                    prediction_agent.predict_from_coordinates(
+        )
 
-                        latitude,
+        custom_inputs = None
 
-                        longitude
+st.markdown("---")
+# =====================================================
+# RUN PREDICTION
+# =====================================================
 
-                    )
+if st.button(
 
-                )
+    "🚀 Run AI Prediction",
 
-            elif prediction_mode == "🌍 Country / State":
+    use_container_width=True
 
-                prediction = (
+):
 
-                    prediction_agent.predict_from_dataset(
+    with st.spinner("Running Prediction..."):
 
-                        country,
+        # ----------------------------------------
+        # Latitude / Longitude
+        # ----------------------------------------
 
-                        state
+        if prediction_mode == "📍 Latitude / Longitude":
 
-                    )
+            prediction = prediction_agent.predict_from_coordinates(
+
+                latitude,
+
+                longitude
+
+            )
+
+        # ----------------------------------------
+        # User Based Prediction
+        # ----------------------------------------
+
+        else:
+
+            if dataset_choice == "India Dataset":
+
+                prediction = prediction_agent.predict_india_custom(
+
+                    custom_inputs
 
                 )
 
             else:
 
-                prediction = (
+                prediction = prediction_agent.predict_from_global(
 
-                    prediction_agent.predict_from_coordinates(
-
-                        latitude,
-
-                        longitude
-
-                    )
+                    selected_location
 
                 )
 
-            # ----------------------------------------
+        # ----------------------------------------
+        # Explainability
+        # ----------------------------------------
 
-            xai = xai_agent.explain(
+        xai = xai_agent.explain(
 
-                prediction["Scaled_Data"],
+            prediction["Scaled_Data"],
 
-                prediction_agent.required_features
+            prediction_agent.required_features
 
-            )
+        )
 
-            st.session_state.prediction = prediction
+        st.session_state.prediction = prediction
 
-            st.session_state.feature_importance = (
+        st.session_state.feature_importance = xai["feature_importance"]
 
-                xai["feature_importance"]
-
-            )
-
-            st.success("Prediction Completed Successfully.")
-                # =====================================================
+        st.success("Prediction Completed Successfully.")
+  
+     # =====================================================
     # RESULTS
     # =====================================================
 
