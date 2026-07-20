@@ -12,151 +12,133 @@ from xai_agent import XAIAgent
 from report_agent import ReportAgent
 from pdf_generator import PDFGenerator
 
-from config import APP_VERSION
 from config import *
 
 st.set_page_config(
-
     page_title=APP_NAME,
-
     page_icon="⚡",
-
     layout="wide",
-
     initial_sidebar_state="expanded"
-
 )
 
 # ==========================================================
 # MODERN CSS
 # ==========================================================
+
 st.markdown("""
 <style>
 
+/* ---------------- Background ---------------- */
+
+.main{
+    background-color:#F7F9FC;
+}
+
+.block-container{
+    padding-top:1.5rem;
+    padding-bottom:2rem;
+}
+
+/* ---------------- Sidebar ---------------- */
+
+section[data-testid="stSidebar"]{
+    background:#0F172A;
+}
+
+section[data-testid="stSidebar"] *{
+    color:white;
+}
+
+/* ---------------- Titles ---------------- */
+
 .big-title{
-    font-size:48px;
-    font-weight:800;
-    color:#4F8BF9;
+    font-size:42px;
+    font-weight:700;
+    color:#1E3A8A;
 }
 
 .subtitle{
     font-size:18px;
-    color:#B8C1CC;
-    margin-bottom:15px;
+    color:#475569;
 }
 
-.block-container{
-    padding-top:2rem;
-}
-
-div[data-testid="stMetric"]{
-    background:#1E293B;
-    border:1px solid #334155;
-    border-radius:12px;
-    padding:12px;
-}
-
-div[data-testid="stInfo"]{
-    border-radius:14px;
-}
-
-div[data-testid="stSuccess"]{
-    border-radius:14px;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-
-
-
-st.markdown("""
-
-<style>
-
-html, body {
-
-background:#F5F7FB;
-
-font-family:Segoe UI;
-
-}
-
-.main {
-
-background:#F5F7FB;
-
-}
-
-.block-container{
-
-padding-top:1.5rem;
-
-padding-bottom:2rem;
-
-}
-
-section[data-testid="stSidebar"]{
-
-background:#0F172A;
-
-}
-
-section[data-testid="stSidebar"] *{
-
-color:white;
-
-}
+/* ---------------- Cards ---------------- */
 
 .metric-card{
 
-background:white;
+    background:white;
 
-padding:20px;
+    padding:20px;
 
-border-radius:18px;
+    border-radius:18px;
 
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+    border:1px solid #E2E8F0;
 
-text-align:center;
+    box-shadow:0px 6px 18px rgba(0,0,0,0.08);
 
 }
 
 .prediction-card{
 
-background:white;
+    background:white;
 
-padding:25px;
+    padding:22px;
 
-border-radius:18px;
+    border-radius:18px;
 
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+    border:1px solid #E2E8F0;
+
+    box-shadow:0px 6px 18px rgba(0,0,0,0.08);
+
+}
+
+/* ---------------- Metrics ---------------- */
+
+div[data-testid="stMetric"]{
+
+    background:white;
+
+    border:1px solid #E2E8F0;
+
+    border-radius:14px;
+
+    padding:14px;
 
 }
 
-.big-title{
+/* ---------------- Info Boxes ---------------- */
 
-font-size:38px;
+div[data-testid="stInfo"]{
 
-font-weight:700;
-
-color:#1E3A8A;
+    border-radius:16px;
 
 }
+
+div[data-testid="stSuccess"]{
+
+    border-radius:16px;
+
+}
+
+div[data-testid="stWarning"]{
+
+    border-radius:16px;
+
+}
+
+/* ---------------- Footer ---------------- */
 
 .footer{
 
-text-align:center;
+    text-align:center;
 
-color:gray;
+    color:#64748B;
 
-padding:30px;
+    padding:30px;
 
 }
 
 </style>
-
 """, unsafe_allow_html=True)
 
 # ==========================================================
@@ -164,61 +146,44 @@ padding:30px;
 # ==========================================================
 
 @st.cache_resource
-
 def load_prediction():
-
     return PredictionAgent()
 
-
 @st.cache_resource
-
 def load_xai():
-
     return XAIAgent()
 
-
 @st.cache_resource
-
 def load_report():
-
     return ReportAgent()
 
-
 @st.cache_resource
-
 def load_pdf():
-
     return PDFGenerator()
 
-
 prediction_agent = load_prediction()
-
 xai_agent = load_xai()
-
 report_agent = load_report()
-
 pdf_generator = load_pdf()
 
 # ==========================================================
-# SESSION
+# SESSION STATE
 # ==========================================================
 
 if "prediction" not in st.session_state:
-
     st.session_state.prediction = None
 
 if "feature_importance" not in st.session_state:
-
     st.session_state.feature_importance = None
 
 if "report" not in st.session_state:
-
     st.session_state.report = None
+
 # ==========================================================
 # SIDEBAR
 # ==========================================================
 
-st.sidebar.title("🧪 Hydrogen AI Studio")
+st.sidebar.title("⚡ Hydrogen AI Studio")
 
 page = st.sidebar.radio(
 
@@ -240,30 +205,35 @@ page = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 
-st.sidebar.info(
+st.sidebar.success(
 
-    f"""
+f"""
 
-### 📌 Application Info
+### 📌 Application Information
 
-**Version:** {APP_VERSION}
+**Version**
+
+{APP_VERSION}
+
+---
 
 **Machine Learning**
 
 Voting Regressor Ensemble
 
+---
+
 **Generative AI**
 
-Gemini 2.5 Flash
+Gemini
+
+---
 
 **Explainable AI**
 
 Feature Importance Analysis
 
-
 """
-
-)
 # ==========================================================
 # DASHBOARD
 # ==========================================================
@@ -280,59 +250,58 @@ if page == "🏠 Dashboard":
         ⚡ Hydrogen Production AI Studio
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
     )
 
     st.markdown(
         """
         <div class="subtitle">
-        Machine Learning Assisted Life Cycle Assessment (LCA) of Hydrogen Production Pathways
+        Machine Learning Assisted Life Cycle Assessment (LCA)
+        for Sustainable Hydrogen Production
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
     )
 
     st.markdown("---")
 
     # ======================================================
-    # RESEARCH OVERVIEW
+    # OVERVIEW
     # ======================================================
 
-    left, right = st.columns([2, 1])
+    left, right = st.columns([2,1])
 
     with left:
 
-        st.info(
-            """
+        st.info("""
 ### 🌍 Research Overview
 
-Hydrogen AI Studio integrates Machine Learning, Explainable AI (SHAP),
-Life Cycle Assessment (LCA), and Google Gemini AI to support sustainable
-hydrogen production analysis.
+Hydrogen AI Studio integrates
 
-The platform predicts hydrogen production, estimates environmental
-impacts, explains the important influencing factors, and automatically
-generates professional sustainability reports.
-"""
-        )
+- Machine Learning
+- Life Cycle Assessment (LCA)
+- Explainable AI
+- Google Gemini AI
+
+to estimate hydrogen production, analyse environmental impacts,
+and generate professional sustainability reports.
+""")
 
     with right:
 
-        st.success(
-            """
+        st.success("""
 ### 🚀 Platform Modules
 
 ✔ Hydrogen Prediction
 
-✔ CO₂ Assessment
+✔ CO₂ Estimation
 
-✔ SHAP Explainability
+✔ Explainable AI
 
-✔ Gemini AI Report
+✔ AI Sustainability Report
 
 ✔ PDF Report Export
-"""
-        )
+""")
 
     st.markdown("---")
 
@@ -342,11 +311,11 @@ generates professional sustainability reports.
 
     dataset = prediction_agent.master
 
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([2,1])
 
     with col1:
 
-        st.subheader("📊 Hydrogen Production Technologies")
+        st.subheader("📊 Production Pathway Distribution")
 
         pathway = (
             dataset["Production_Pathway"]
@@ -354,29 +323,38 @@ generates professional sustainability reports.
             .reset_index()
         )
 
-        pathway.columns = [
-            "Technology",
-            "Samples"
-        ]
+        pathway.columns = ["Production Pathway","Samples"]
 
         fig = px.bar(
+
             pathway,
-            x="Technology",
+
+            x="Production Pathway",
+
             y="Samples",
+
             color="Samples",
+
             text="Samples",
-            title="Technology Distribution"
+
+            template="plotly_white"
+
         )
 
         fig.update_layout(
-            template="plotly_dark",
+
             showlegend=False,
-            height=430
+
+            height=420
+
         )
 
         st.plotly_chart(
+
             fig,
+
             use_container_width=True
+
         )
 
     with col2:
@@ -384,24 +362,52 @@ generates professional sustainability reports.
         st.subheader("📈 Dataset Statistics")
 
         st.metric(
-            "Hydrogen Samples",
+
+            "Total Samples",
+
             len(dataset)
+
         )
 
         st.metric(
-            "Locations",
+
+            "Unique Locations",
+
             dataset["Location"].nunique()
+
         )
 
         st.metric(
+
             "Average Hydrogen",
+
             f"{dataset['Hydrogen_Output_kg_day'].mean():.1f} kg/day"
+
         )
 
         st.metric(
+
             "Average CO₂",
+
             f"{dataset['LCA_GWP_kg_CO2_eq_per_kg_H2'].mean():.2f}"
+
         )
+
+    st.markdown("---")
+
+    # ======================================================
+    # DATA PREVIEW
+    # ======================================================
+
+    st.subheader("📄 Dataset Preview")
+
+    st.dataframe(
+
+        dataset.head(10),
+
+        use_container_width=True
+
+    )
 
     st.markdown("---")
 
@@ -409,34 +415,39 @@ generates professional sustainability reports.
     # WORKFLOW
     # ======================================================
 
-    st.subheader("⚙ Platform Workflow")
+    st.subheader("⚙ AI Workflow")
 
     st.code(
-        """
-Country / Coordinates
+
+"""
+Latitude / Longitude
+        OR
+User Based Prediction
         │
         ▼
- Dataset Retrieval
+Nearest Dataset Retrieval
         │
         ▼
- Machine Learning Prediction
+Machine Learning Prediction
         │
         ▼
- Hydrogen Production
+Hydrogen Production
         │
         ▼
- Environmental Impact
+Environmental Impact
         │
         ▼
- SHAP Explainability
+Explainable AI
         │
         ▼
- Gemini Sustainability Report
+Gemini AI Report
         │
         ▼
- PDF Report Generation
+Professional PDF Export
 """,
+
         language="text"
+
     )
 
     st.markdown("---")
@@ -445,694 +456,64 @@ Country / Coordinates
     # FEATURES
     # ======================================================
 
-    f1, f2 = st.columns(2)
+    c1, c2 = st.columns(2)
 
-    with f1:
+    with c1:
 
-        st.success(
-            """
-### 🔬 Machine Learning
+        st.success("""
+
+### 🧠 Machine Learning
 
 • Voting Regressor Ensemble
 
-• Coordinate-Based Prediction
+• Latitude / Longitude Prediction
 
-• Country & State Prediction
+• User Based Prediction
 
 • Automated Feature Engineering
 
-• Environmental Impact Prediction
-"""
-        )
+• Environmental Assessment
 
-    with f2:
+""")
 
-        st.success(
-            """
+    with c2:
+
+        st.success("""
+
 ### 🤖 Artificial Intelligence
 
-• SHAP Explainability
+• Explainable AI
 
-• Google Gemini Report Generation
+• Gemini AI Report
 
-• Sustainability Assessment
+• Sustainability Analysis
 
-• Professional PDF Export
+• PDF Report Export
 
-• Interactive Data Visualisation
-"""
-        )
+• Interactive Visualisation
+
+""")
 
     st.markdown("---")
 
     # ======================================================
-    # PROJECT INFORMATION
+    # PROJECT OBJECTIVE
     # ======================================================
 
     st.subheader("📚 Project Objective")
 
-    st.write(
-        """
-This platform is designed to assist researchers and engineers in
-evaluating hydrogen production pathways using Machine Learning and
-Life Cycle Assessment. It enables rapid prediction of hydrogen output,
-estimation of CO₂ emissions, explanation of influential parameters,
-and automatic generation of AI-assisted sustainability reports for
-decision support.
-"""
-    )
-# ==========================================================
-# PREDICTION PAGE
-# ==========================================================
-
-elif page == "🔮 Prediction":
-
-    st.title("⚡ Hydrogen Production Prediction")
-
-    st.caption(
-        "Predict hydrogen production using either geographical coordinates or dataset locations."
-    )
-
-    st.markdown("---")
-
-    # =====================================================
-    # Prediction Mode
-    # =====================================================
-    prediction_mode = st.radio(
-
-    "Prediction Mode",
-
-    [
-
-        "📍 Latitude / Longitude",
-
-        "👤 User Based Prediction"
-
-    ],
-
-    horizontal=True
-
-)
-
-    st.markdown("---")
-
-    custom_inputs = None
-
-   # =====================================================
-# MODE 1 : LATITUDE / LONGITUDE
-# =====================================================
-
-if prediction_mode == "📍 Latitude / Longitude":
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        latitude = st.number_input(
-            "Latitude",
-            value=23.500,
-            format="%.6f"
-        )
-
-    with col2:
-        longitude = st.number_input(
-            "Longitude",
-            value=78.900,
-            format="%.6f"
-        )
-
-    custom_inputs = None
-    dataset_choice = None
-    selected_location = None
-
-
-# =====================================================
-# MODE 2 : USER BASED
-# =====================================================
-
-else:
-
-    dataset_choice = st.radio(
-
-        "Select Dataset",
-
-        [
-
-            "India Dataset",
-
-            "Global Dataset"
-
-        ],
-
-        horizontal=True
-
-    )
-
-    # ---------------- INDIA ----------------
-
-    if dataset_choice == "India Dataset":
-
-        row = prediction_agent.india_default_row()
-
-        st.info("Modify the plant parameters.")
-
-        c1, c2 = st.columns(2)
-
-        with c1:
-
-            solar = st.number_input(
-                "Solar Irradiance",
-                value=float(row["Solar_Irradiance"])
-            )
-
-            wind = st.number_input(
-                "Wind Speed",
-                value=float(row["Wind_Speed"])
-            )
-
-            water = st.number_input(
-                "Water L/kg H₂",
-                value=float(row["Water_Liters_per_kg"])
-            )
-
-        with c2:
-
-            capacity = st.number_input(
-                "Electrolyzer Capacity (MW)",
-                value=float(row["Electrolyzer_Capacity_MW"])
-            )
-
-            factor = st.number_input(
-                "Capacity Factor (%)",
-                value=float(row["Capacity_Factor_Percent"])
-            )
-
-        custom_inputs = {
-
-            "Solar_Irradiance": solar,
-
-            "Wind_Speed": wind,
-
-            "Water_Liters_per_kg": water,
-
-            "Electrolyzer_Capacity_MW": capacity,
-
-            "Capacity_Factor_Percent": factor
-
-        }
-
-        selected_location = None
-
-    # ---------------- GLOBAL ----------------
-
-    else:
-
-        selected_location = st.selectbox(
-
-            "Select Global Location",
-
-            sorted(
-
-                prediction_agent.global_df["Location"]
-
-                .dropna()
-
-                .unique()
-
-            )
-
-        )
-
-        custom_inputs = None
-
-st.markdown("---")
-# =====================================================
-# RUN PREDICTION
-# =====================================================
-
-if st.button(
-
-    "🚀 Run AI Prediction",
-
-    use_container_width=True
-
-):
-
-    with st.spinner("Running Prediction..."):
-
-        # ----------------------------------------
-        # Latitude / Longitude
-        # ----------------------------------------
-
-        if prediction_mode == "📍 Latitude / Longitude":
-
-            prediction = prediction_agent.predict_from_coordinates(
-
-                latitude,
-
-                longitude
-
-            )
-
-        # ----------------------------------------
-        # User Based Prediction
-        # ----------------------------------------
-
-        else:
-
-            if dataset_choice == "India Dataset":
-
-                prediction = prediction_agent.predict_india_custom(
-
-                    custom_inputs
-
-                )
-
-            else:
-
-                prediction = prediction_agent.predict_from_global(
-
-                    selected_location
-
-                )
-
-        # ----------------------------------------
-        # Explainability
-        # ----------------------------------------
-
-        xai = xai_agent.explain(
-
-            prediction["Scaled_Data"],
-
-            prediction_agent.required_features
-
-        )
-
-        st.session_state.prediction = prediction
-
-        st.session_state.feature_importance = xai["feature_importance"]
-
-        st.success("Prediction Completed Successfully.")
-  
-     # =====================================================
-    # RESULTS
-    # =====================================================
-
-    if st.session_state.get("prediction") is not None:
-
-        result = st.session_state.prediction
-
-        st.markdown("---")
-
-        st.subheader("📈 Prediction Results")
-
-        c1, c2, c3 = st.columns(3)
-
-        with c1:
-
-            st.metric(
-
-                "Hydrogen Production",
-
-                f"{result['Hydrogen_Output']:.2f} kg/day"
-
-            )
-
-        with c2:
-
-            st.metric(
-
-                "Estimated CO₂ Emission",
-
-                f"{result['CO2_Emission']:.2f} kg CO₂-eq/kg H₂"
-
-            )
-
-        with c3:
-
-            score = max(
-
-                0,
-
-                round(
-
-                    100 - result["CO2_Emission"] * 5,
-
-                    1
-
-                )
-
-            )
-
-            st.metric(
-
-                "Sustainability Score",
-
-                f"{score}%"
-
-            )
-
-        st.markdown("---")
-
-        # =================================================
-        # LOCATION DETAILS
-        # =================================================
-
-        st.subheader("📍 Selected Location")
-
-        info1, info2 = st.columns(2)
-
-        with info1:
-
-            st.write("**Location**")
-
-            st.success(result["Location"])
-
-            st.write("**Country**")
-
-            st.success(result["Country"])
-
-        with info2:
-
-            st.write("**Latitude**")
-
-            st.info(result["Latitude"])
-
-            st.write("**Longitude**")
-
-            st.info(result["Longitude"])
-
-        st.markdown("---")
-
-        # =================================================
-        # FEATURE IMPORTANCE
-        # =================================================
-
-        st.subheader("🔍 Feature Importance")
-
-        importance = (
-
-            st.session_state.feature_importance
-
-            .head(10)
-
-            .sort_values("Importance")
-
-        )
-
-        fig = px.bar(
-
-            importance,
-
-            x="Importance",
-
-            y="Feature",
-
-            orientation="h",
-
-            color="Importance",
-
-            template="plotly_dark",
-
-            title="Top Influencing Features"
-
-        )
-
-        fig.update_layout(
-
-            height=450,
-
-            showlegend=False
-
-        )
-
-        st.plotly_chart(
-
-            fig,
-
-            use_container_width=True
-
-        )
-
-        st.markdown("---")
-
-        # =================================================
-        # AI REPORT
-        # =================================================
-
-        st.subheader("🤖 AI Sustainability Report")
-
-        if st.button(
-
-            "Generate AI Report",
-
-            use_container_width=True
-
-        ):
-
-            with st.spinner(
-
-                "Generating report using Gemini..."
-
-            ):
-
-                report = report_agent.generate_report(
-
-                    result,
-
-                    st.session_state.feature_importance
-
-                )
-
-                st.session_state.report = report
-
-        if st.session_state.get("report"):
-
-            st.markdown(
-
-                st.session_state.report
-
-            )
-
-            st.markdown("---")
-
-            pdf = pdf_generator.generate(
-
-                result,
-
-                st.session_state.report
-
-            )
-
-            st.download_button(
-
-                "📄 Download PDF Report",
-
-                pdf,
-
-                file_name="Hydrogen_AI_Report.pdf",
-
-                mime="application/pdf",
-
-                use_container_width=True
-
-            )
-             
-# ==========================================================
-# AI REPORT PAGE
-# ==========================================================
-
-elif page == "📄 AI Report":
-
-    st.title("🤖 AI Sustainability Report")
-
-    st.caption(
-        "AI-generated sustainability assessment using Google Gemini."
-    )
-
-    st.markdown("---")
-
-    if st.session_state.report is None:
-
-        st.info(
-            "No report available.\n\nRun a prediction first, then generate the AI report."
-        )
-
-    else:
-
-        tab1, tab2 = st.tabs(
-
-            [
-
-                "📄 AI Report",
-
-                "📥 Download PDF"
-
-            ]
-
-        )
-
-        with tab1:
-
-            st.markdown(
-
-                st.session_state.report
-
-            )
-
-        with tab2:
-
-            pdf_buffer = pdf_generator.generate(
-
-                st.session_state.prediction,
-
-                st.session_state.report
-
-            )
-
-            st.download_button(
-
-                "📄 Download Hydrogen Sustainability Report",
-
-                data=pdf_buffer,
-
-                file_name="Hydrogen_AI_Report.pdf",
-
-                mime="application/pdf",
-
-                use_container_width=True
-
-            )
-
-# ==========================================================
-# ABOUT PAGE
-# ==========================================================
-
-elif page == "ℹ️ About":
-
-    st.title("ℹ About Hydrogen Production AI Studio")
-
-    st.markdown("---")
-
-    left, right = st.columns([2,1])
-
-    with left:
-
-        st.markdown("""
-
-### Hydrogen Production AI Studio
-
-Hydrogen Production AI Studio is an intelligent decision-support platform developed to assist researchers, industries, and policymakers in evaluating hydrogen production pathways using Machine Learning and Artificial Intelligence.
-
-Unlike traditional hydrogen assessment methods, this platform predicts hydrogen production while simultaneously estimating environmental impact and generating an AI-powered sustainability assessment.
-
-### Major Components
-
-• Hydrogen Production Prediction
-
-• Environmental Impact Assessment
-
-• Explainable AI
-
-• AI Sustainability Report
-
-• Professional PDF Export
-
-### Technologies
-
-- Python
-
-- Streamlit
-
-- Scikit-Learn
-
-- Voting Regressor
-
-- Plotly
-
-- Google Gemini
-
-- ReportLab
-
-### Developed By
-
-**Radha Pandey**
-
-Spark Research Internship
-
-Department of Hydro & Renewable Energy
-
-Indian Institute of Technology Roorkee
+    st.write("""
+
+Hydrogen AI Studio is designed to assist researchers in analysing
+hydrogen production pathways using Machine Learning and Life Cycle
+Assessment.
+
+The platform predicts hydrogen production, estimates environmental
+impacts, explains important influencing parameters, and generates
+professional AI-assisted sustainability reports for decision support.
 
 """)
 
-    with right:
 
-        st.metric(
-
-            "Version",
-
-            APP_VERSION
-
-        )
-
-        st.metric(
-
-            "Prediction Model",
-
-            "Voting Regressor"
-
-        )
-
-        st.metric(
-
-            "Explainability",
-
-            "Feature Importance"
-
-        )
-
-        st.metric(
-
-            "LLM",
-
-            "Gemini 2.5 Flash"
-
-        )
-
-        st.metric(
-
-            "Reports",
-
-            "AI + PDF"
-
-        )
-
-# ==========================================================
-# FOOTER
-# ==========================================================
-
-st.markdown("---")
-
-st.markdown(
-
-"""
-
-<div class="footer">
-
-<b>Hydrogen Production AI Studio</b>
-
-<br><br>
-
-Machine Learning • Explainable AI • Google Gemini • Sustainability Analytics
-
-<br><br>
-
-Developed by <b>Radha Pandey</b>
-
-</div>
-
-""",
-
-unsafe_allow_html=True
 
 )
