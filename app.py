@@ -500,8 +500,6 @@ professional AI-assisted sustainability reports for decision support.
 """)
 
 
-
-)
 # ==========================================================
 # PREDICTION PAGE
 # ==========================================================
