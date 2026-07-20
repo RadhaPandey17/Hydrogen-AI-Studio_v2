@@ -18,130 +18,92 @@ class ReportAgent:
 
     # -----------------------------------------------------
 
-    def generate_report(
+    def generate_report(self,prediction,feature_importance):
 
-        self,
+    feature_text=""
 
-        prediction,
+    for _,r in feature_importance.head(8).iterrows():
 
-        feature_importance
+        feature_text+=f"- {r['Feature']} : {round(float(r['Contribution']),2)}%\n"
 
-    ):
-
-        top_features = feature_importance.head(8)
-
-        feature_text = ""
-
-        for _, row in top_features.iterrows():
-
-            feature_text += (
-
-                f"- {row['Feature']} : "
-
-                f"{round(float(row['Contribution']),2)}%\n"
-
-            )
-
-        prompt = f"""
-
+    prompt=f"""
 You are a Hydrogen Sustainability Expert.
 
-Generate a professional technical report.
+Generate a professional report.
 
---------------------------------------------
+Location:
+{prediction['Location']}
 
-Selected Location
+Latitude:
+{prediction['Latitude']}
 
-{prediction["Location"]}
+Longitude:
+{prediction['Longitude']}
 
-Latitude
+Predicted Hydrogen:
+{prediction['Hydrogen_Output']} kg/day
 
-{prediction["Latitude"]}
+Estimated CO₂:
+{prediction['CO2_Emission']} kg CO₂-eq/kg H₂
 
-Longitude
-
-{prediction["Longitude"]}
-
---------------------------------------------
-
-Predicted Hydrogen Production
-
-{prediction["Hydrogen_Output"]} kg/day
-
-Estimated CO₂ Emission
-
-{prediction["CO2_Emission"]} kg CO₂-eq/kg H₂
-
---------------------------------------------
-
-Most Important Features
+Important Features:
 
 {feature_text}
 
---------------------------------------------
-
-Generate sections:
+Generate
 
 1 Executive Summary
 
-2 Prediction Analysis
+2 Technical Analysis
 
-3 Environmental Impact
+3 Environmental Assessment
 
-4 Explainable AI Interpretation
+4 Explainable AI
 
-5 Sustainability Assessment
+5 Sustainability Score
 
 6 Recommendations
 
 7 Conclusion
-
 """
 
-        try:
+    try:
 
-            response = self.client.models.generate_content(
+        response=self.client.models.generate_content(
 
-                model=GEMINI_MODEL,
+            model=GEMINI_MODEL,
 
-                contents=prompt
+            contents=prompt
 
-            )
+        )
 
-            return response.text
+        return response.text
 
-        except Exception as e:
+    except Exception as e:
 
-            return f"""
+        return f"""
 
-# Gemini Report Failed
+# Gemini Report Generation Failed
 
 Reason
 
-{str(e)}
-
---------------------------------
+{e}
 
 Prediction Summary
 
-Location
+Location:
+{prediction['Location']}
 
-{prediction["Location"]}
+Latitude:
+{prediction['Latitude']}
 
-Latitude
+Longitude:
+{prediction['Longitude']}
 
-{prediction["Latitude"]}
+Hydrogen Production:
+{prediction['Hydrogen_Output']} kg/day
 
-Longitude
-
-{prediction["Longitude"]}
-
-Hydrogen Production
-
-{prediction["Hydrogen_Output"]} kg/day
-
-Estimated CO₂
-
-{prediction["CO2_Emission"]} kg CO₂-eq/kg H₂
+Estimated CO₂:
+{prediction['CO2_Emission']} kg CO₂-eq/kg H₂
 
 """
