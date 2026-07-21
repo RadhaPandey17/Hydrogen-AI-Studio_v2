@@ -47,44 +47,30 @@ class ReportAgent:
             6 Recommendations
             7 Conclusion
             """
-
-    try:
-
-        response=self.client.models.generate_content(
-
-            model=GEMINI_MODEL,
-
-            contents=prompt
-
-        )
-
-        return response.text
-
-    except Exception as e:
-
-        return f"""
-
-# Gemini Report Generation Failed
-
-Reason
-
-{e}
-
-Prediction Summary
-
-Location:
-{prediction['Location']}
-
-Latitude:
-{prediction['Latitude']}
-
-Longitude:
-{prediction['Longitude']}
-
-Hydrogen Production:
-{prediction['Hydrogen_Output']} kg/day
-
-Estimated CO₂:
-{prediction['CO2_Emission']} kg CO₂-eq/kg H₂
-
-"""
+            
+            
+            try:
+                response=self.client.models.generate_content(
+                    model=GEMINI_MODEL,
+                    contents=prompt
+                )
+                
+                return response.text
+            except Exception as e:
+                
+                return f"""
+                # Gemini Report Generation Failed
+                Reason
+                {e}
+                Prediction Summary
+                Location:
+                {prediction['Location']}
+                Latitude:
+                {prediction['Latitude']}
+                Longitude:
+                {prediction['Longitude']}
+                Hydrogen Production:
+                {prediction['Hydrogen_Output']} kg/day
+                Estimated CO₂:
+                {prediction['CO2_Emission']} kg CO₂-eq/kg H₂
+                """
