@@ -770,6 +770,11 @@ elif page == "🔮 Prediction":
                         st.session_state.prediction = prediction
                         st.session_state.feature_importance = xai["feature_importance"]
                         st.success("Prediction Completed Successfully.")
+                        report = report_agent.generate_report(
+                            prediction,
+                            st.session_state.feature_importance
+                        )
+                        
                       # =====================================================
                       # RESULTS
                       # =====================================================  
@@ -810,12 +815,10 @@ elif page == "🔮 Prediction":
                                             use_container_width=True
                                         )
                                         st.markdown("---")
+                                        
     # =====================================================
     # FEATURE IMPORTANCE
     # =====================================================
-
-                                        
-                                        
                                         st.subheader("🔍 Top Influencing Features")
                                         importance = (
                                             st.session_state.feature_importance
@@ -841,6 +844,18 @@ elif page == "🔮 Prediction":
                                             use_container_width=True
                                         )
                                         st.markdown("---")
+                                        st.subheader("🤖 AI Sustainability Report")
+                                        st.markdown(st.session_state.report)
+                                        st.download_button(
+                                            "📄 Download AI Report",
+                                            pdf_generator.generate(
+                                                st.session_state.prediction,
+                                                st.session_state.report
+                                            ),
+                                            file_name="Hydrogen_Report.pdf",
+                                            mime="application/pdf",
+                                            use_container_width=True
+                                        )
       # =====================================================
     # GENERATE AI REPORT
     # =====================================================
