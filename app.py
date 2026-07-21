@@ -66,15 +66,15 @@ section[data-testid="stSidebar"] *{
 
 .metric-card{
 
-    background:white;
+background:#1E293B;
 
-    padding:20px;
+color:white;
 
-    border-radius:18px;
+padding:20px;
 
-    border:1px solid #E2E8F0;
+border-radius:18px;
 
-    box-shadow:0px 6px 18px rgba(0,0,0,0.08);
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 
 }
 
@@ -96,13 +96,27 @@ section[data-testid="stSidebar"] *{
 
 div[data-testid="stMetric"]{
 
-    background:white;
+background:#1E293B;
 
-    border:1px solid #E2E8F0;
+color:white;
 
-    border-radius:14px;
+border:1px solid #334155;
 
-    padding:14px;
+border-radius:12px;
+
+padding:15px;
+
+}
+
+div[data-testid="stMetric"] label{
+
+color:white !important;
+
+}
+
+div[data-testid="stMetric"] div{
+
+color:white !important;
 
 }
 
