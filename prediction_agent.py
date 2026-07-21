@@ -86,66 +86,42 @@ class PredictionAgent:
     def india_default_row(self):
 
         return self.india.iloc[0].copy()
-
-    # ==========================================================
-    # Global Dataset
-    # ==========================================================
-
+        
+        
     def get_global_countries(self):
-
-    countries = set()
-
-    for loc in self.global_df["Location"].dropna():
-
-        text = str(loc)
-
-        if "," in text:
-            country = text.split(",")[-1].strip()
-
-        elif "(" in text:
-            country = text.split("(")[0].strip()
-
-        else:
-            country = text.strip()
-
-        # Ignore Indian cities
-        if country.lower() in [
-            "angul",
-            "bokaro",
-            "bhuj",
-            "kota",
-            "bengaluru",
-            "hyderabad",
-            "kolkata",
-            "chennai",
-            "faridabad",
-            "babrala",
-            "dahej",
-            "vijaynagar",
-            "lonavla",
-            "leh"
-        ]:
-            continue
-
-        countries.add(country)
-
-    return sorted(list(countries))
-
+        countries = set()
+        ignore = {
+            "angul","bokaro","bhuj","kota","bengaluru",
+            "hyderabad","kolkata","chennai","faridabad",
+            "babrala","dahej","vijaynagar","lonavla","leh"
+        }
+        for loc in self.global_df["Location"].dropna():
+            text = str(loc)
+            if "," in text:
+                country = text.split(",")[-1].strip()
+            elif "(" in text:
+                country = text.split("(")[0].strip()
+            else:
+                country = text.strip()
+                
+                if country.lower() in ignore:
+                    continue
+                    countries.add(country)
+                    
+                    return sorted(countries)
+    
     # ==========================================================
     # Global Selection
     # ==========================================================
 
+
+
     def global_location(self, country):
-
-    for _, row in self.global_df.iterrows():
-
-        location = str(row["Location"])
-
-        if country.lower() in location.lower():
-
-            return row.copy()
-
-    return self.global_df.iloc[0].copy()
+        for _, row in self.global_df.iterrows():
+            location = str(row["Location"])
+            if country.lower() in location.lower():
+                return row.copy()
+        return self.global_df.iloc[0].copy()
 
     # ==========================================================
     # Feature Engineering
@@ -206,30 +182,28 @@ class PredictionAgent:
         scaled = self.scaler.transform(df)
 
         return scaled
-   # ==========================================================
-    # Run Prediction
-    # ==========================================================
-    return {
-
-    "Location": row["Location"],
-
-    "Latitude": float(row["Latitude"]),
-
-    "Longitude": float(row["Longitude"]),
-
-    "Hydrogen_Output": round(float(hydrogen),2),
-
-    "CO2_Emission": round(
-        float(row["LCA_GWP_kg_CO2_eq_per_kg_H2"]),
-        2
-    ),
-
-    "Matched_Row": row,
-
-    "Scaled_Data": scaled
-
-}
-    
+# ==========================================================
+# Run Prediction
+# ==========================================================
+    def run_prediction(self, row):
+        scaled = self.prepare_features(row)
+        prediction = float(
+            self.model.predict(scaled)[0]
+        )
+        if prediction < 50:
+            hydrogen = np.expm1(prediction)
+        else:
+            hydrogen = prediction
+        return {
+                "Location": row["Location"],
+                "Latitude": float(row["Latitude"]),
+                "Longitude": float(row["Longitude"]),
+                "Hydrogen_Output": round(float(hydrogen),2),
+                "CO2_Emission": round(float(row["LCA_GWP_kg_CO2_eq_per_kg_H2"]),2
+                                     ),
+                "Matched_Row": row,
+                "Scaled_Data": scaled
+            }
     
     # ==========================================================
     # Mode 1
