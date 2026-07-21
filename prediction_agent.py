@@ -86,29 +86,32 @@ class PredictionAgent:
     def india_default_row(self):
 
         return self.india.iloc[0].copy()
-        
-        
+
     def get_global_countries(self):
-        countries = set()
-        ignore = {
-            "angul","bokaro","bhuj","kota","bengaluru",
-            "hyderabad","kolkata","chennai","faridabad",
-            "babrala","dahej","vijaynagar","lonavla","leh"
-        }
+        countries = []
+        indian_keywords = [
+            "angul",
+            "bokaro",
+            "bhuj",
+            "kota",
+            "bengaluru",
+            "hyderabad","kolkata","chennai","faridabad","babrala","dahej",
+            "vijaynagar",
+            "lonavla",
+            "leh"
+        ]
         for loc in self.global_df["Location"].dropna():
-            text = str(loc)
-            if "," in text:
-                country = text.split(",")[-1].strip()
-            elif "(" in text:
-                country = text.split("(")[0].strip()
-            else:
-                country = text.strip()
+            location = str(loc).strip()
+            
+            if any(city in location.lower() for city in indian_keywords):
+                continue
                 
-                if country.lower() in ignore:
-                    continue
-                    countries.add(country)
-                    
-                    return sorted(countries)
+            countries.append(location)
+            
+        return sorted(list(set(countries)))
+        
+        
+    
     
     # ==========================================================
     # Global Selection
