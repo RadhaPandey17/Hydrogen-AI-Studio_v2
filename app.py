@@ -804,8 +804,9 @@ elif page == "🔮 Prediction":
 
                                         st.markdown("---")
                                         st.subheader("📍 Matched Dataset Record")
+                                        matched = result["Feature_Row"]
                                         st.dataframe(
-                                            result["Feature_Row"].to_frame(),
+                                            matched.to_frame("Value"),
                                             use_container_width=True
                                         )
                                         st.markdown("---")
