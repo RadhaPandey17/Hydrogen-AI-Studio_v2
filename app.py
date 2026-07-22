@@ -1095,16 +1095,14 @@ elif page == "📄 AI Report":
 elif page == "ℹ️ About":
 
     st.title("ℹ About Hydrogen AI Studio")
-    from google import genai
-    from config import GOOGLE_API_KEY
+    import google.genai as genai
+    st.write("google-genai version")
     
     try:
-        client = genai.Client(api_key=GOOGLE_API_KEY)
-        st.subheader("Available Gemini Models")
-        for model in client.models.list():
-            st.write(model.name)
+        import importlib.metadata
+        st.write(importlib.metadata.version("google-genai"))
     except Exception as e:
-        st.error(e)
+        st.write(e)
 
         
     st.markdown("---")
