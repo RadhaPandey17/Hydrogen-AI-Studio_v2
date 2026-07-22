@@ -1095,6 +1095,13 @@ elif page == "📄 AI Report":
 elif page == "ℹ️ About":
 
     st.title("ℹ About Hydrogen AI Studio")
+    import streamlit as st
+    
+    try:
+        GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+    except Exception:
+        GOOGLE_API_KEY = None
+        
     import google.genai as genai
     st.write("google-genai version")
     
