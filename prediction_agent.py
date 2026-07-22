@@ -22,123 +22,96 @@ class PredictionAgent:
     # ==========================================================
     # Initialization
     # ==========================================================
-
     def __init__(self):
 
-        # -------------------------
-        # Load datasets
-        # -------------------------
-
         self.india = pd.read_csv(INDIA_DATASET)
-
         self.global_df = pd.read_csv(GLOBAL_DATASET)
 
-        # -------------------------
-        # Merge datasets
-        # -------------------------
-
         self.master = pd.concat(
-            [
-                self.india,
-                self.global_df
-            ],
+            [self.india, self.global_df],
             ignore_index=True
         )
 
-        # -------------------------
-        # Load ML model
-        # -------------------------
-
         self.model = joblib.load(MODEL_PATH)
-
         self.scaler = joblib.load(SCALER_PATH)
-
         self.required_features = joblib.load(FEATURE_PATH)
 
     # ==========================================================
-    # Latitude / Longitude Search
+    # Find nearest coordinate
     # ==========================================================
-
-    def nearest_location(
-        self,
-        latitude,
-        longitude
-    ):
+    def nearest_location(self, latitude, longitude):
 
         df = self.master.copy()
 
-        distance = (
-
+        df["distance"] = (
             (df["Latitude"] - latitude) ** 2 +
-
             (df["Longitude"] - longitude) ** 2
-
         )
 
-        idx = distance.idxmin()
+        idx = df["distance"].idxmin()
 
         return df.loc[idx].copy()
 
     # ==========================================================
-    # India Dataset
+    # Default India Row
     # ==========================================================
-
     def india_default_row(self):
 
         return self.india.iloc[0].copy()
 
+    # ==========================================================
+    # Global Country List
+    # ==========================================================
     def get_global_countries(self):
-        countries = []
-        indian_keywords = [
-            "angul",
-            "bokaro",
-            "bhuj",
-            "kota",
-            "bengaluru",
-            "hyderabad","kolkata","chennai","faridabad","babrala","dahej",
-            "vijaynagar",
-            "lonavla",
-            "leh"
-        ]
+
+        countries = set()
+
+        indian_words = {
+            "angul","bokaro","bhuj","kota","bengaluru",
+            "hyderabad","kolkata","chennai","faridabad",
+            "babrala","dahej","vijaynagar","lonavla",
+            "leh","india"
+        }
+
         for loc in self.global_df["Location"].dropna():
+
             text = str(loc)
-            
+
             if "," in text:
                 country = text.split(",")[-1].strip()
+
             else:
                 country = text.strip()
-                
-            if country.lower() in indian_states:
+
+            if country.lower() in indian_words:
                 continue
-                
-            countries.append(country)
-            
-        return sorted(list(set(countries)))
-        
-        
-    
-    
+
+            countries.add(country)
+
+        return sorted(countries)
+
     # ==========================================================
-    # Global Selection
+    # Selected Global Country
     # ==========================================================
-
-
-
     def global_location(self, country):
+
         if country is None:
-            
+
             return self.global_df.iloc[0].copy()
+
         for _, row in self.global_df.iterrows():
+
             location = str(row["Location"])
-            if country.lower() in location.lower():
+
+            if location.endswith(country):
+
                 return row.copy()
-                
-            return self.global_df.iloc[0].copy()
+
+        return self.global_df.iloc[0].copy()
 
     # ==========================================================
     # Feature Engineering
     # ==========================================================
-
     def prepare_features(self, row):
 
         row = row.copy()
@@ -159,152 +132,103 @@ class PredictionAgent:
 
         ]
 
-        for column in remove_columns:
+        for c in remove_columns:
 
-            if column in row.index:
-
-                row.drop(column, inplace=True)
+            if c in row.index:
+                row.drop(c, inplace=True)
 
         df = pd.DataFrame([row])
 
         df = pd.get_dummies(
-
             df,
-
             columns=[
-
                 "Production_Pathway",
-
                 "Power_Source"
-
             ],
-
             drop_first=False
-
         )
 
-        for feature in self.required_features:
+        for f in self.required_features:
 
-            if feature not in df.columns:
-
-                df[feature] = 0
+            if f not in df.columns:
+                df[f] = 0
 
         df = df[self.required_features]
 
-        scaled = self.scaler.transform(df)
+        return self.scaler.transform(df)
 
-        return scaled
-# ==========================================================
-# Run Prediction
-# ==========================================================
+    # ==========================================================
+    # Prediction
+    # ==========================================================
     def run_prediction(self, row):
+
         scaled = self.prepare_features(row)
-        prediction = float(
-            self.model.predict(scaled)[0]
-        )
-        if prediction < 50:
-            hydrogen = np.expm1(prediction)
+
+        pred = float(self.model.predict(scaled)[0])
+
+        if pred < 50:
+            hydrogen = np.expm1(pred)
         else:
-            hydrogen = prediction
+            hydrogen = pred
+
         return {
-                "Location": row["Location"],
-                "Latitude": float(row["Latitude"]),
-                "Longitude": float(row["Longitude"]),
-                "Hydrogen_Output": round(float(hydrogen),2),
-                "CO2_Emission": round(float(row["LCA_GWP_kg_CO2_eq_per_kg_H2"]),2
-                                     ),
-                "Matched_Row": row,
-                "Scaled_Data": scaled
-            }
-    
+
+            "Location": row["Location"],
+
+            "Country": str(row["Location"]).split(",")[-1].strip(),
+
+            "Latitude": float(row["Latitude"]),
+
+            "Longitude": float(row["Longitude"]),
+
+            "Hydrogen_Output": round(hydrogen,2),
+
+            "CO2_Emission": round(
+                float(row["LCA_GWP_kg_CO2_eq_per_kg_H2"]),
+                2
+            ),
+
+            "Matched_Row": row,
+
+            "Scaled_Data": scaled
+
+        }
+
     # ==========================================================
-    # Mode 1
-    # Latitude / Longitude
+    # Latitude Longitude Prediction
     # ==========================================================
+    def predict_from_coordinates(self, latitude, longitude):
 
-    def predict_from_coordinates(
-
-        self,
-
-        latitude,
-
-        longitude
-
-    ):
-
-        row = self.nearest_location(
-
-            latitude,
-
-            longitude
-
-        )
+        row = self.nearest_location(latitude, longitude)
 
         return self.run_prediction(row)
 
     # ==========================================================
-    # Mode 2A
-    # India Dataset (Editable Inputs)
+    # India Custom Prediction
     # ==========================================================
-
-    def predict_india_custom(
-
-        self,
-
-        custom_inputs
-
-    ):
+    def predict_india_custom(self, custom_inputs):
 
         row = self.india_default_row()
 
-        for key, value in custom_inputs.items():
+        for k, v in custom_inputs.items():
 
-            if key in row.index:
-
-                row[key] = value
-
-        return self.run_prediction(row)
-
-    # ==========================================================
-    # Mode 2B
-    # Global Dataset
-    # ==========================================================
-
-    def predict_from_global(
-
-        self,
-
-        country
-
-    ):
-
-        row = self.global_location(
-
-            country
-
-        )
+            if k in row.index:
+                row[k] = v
 
         return self.run_prediction(row)
 
     # ==========================================================
-    # Compatibility Function
-    # Old app.py still calls predict()
+    # Global Prediction
     # ==========================================================
+    def predict_from_global(self, country):
 
-    def predict(
+        row = self.global_location(country)
 
-        self,
+        return self.run_prediction(row)
 
-        latitude,
+    # ==========================================================
+    # Compatibility
+    # ==========================================================
+    def predict(self, latitude, longitude):
 
-        longitude
-
-    ):
-
-        return self.predict_from_coordinates(
-
-            latitude,
-
-            longitude
-
-        )
+        return self.predict_from_coordinates(latitude, longitude)
