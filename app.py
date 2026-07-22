@@ -65,6 +65,7 @@ section[data-testid="stSidebar"] *{
 /* ---------------- Cards ---------------- */
 
 .metric-card{
+color:#111827;
 
 background:#1E293B;
 
@@ -79,6 +80,7 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .prediction-card{
+    color:#111827;
 
     background:white;
 
@@ -118,6 +120,13 @@ div[data-testid="stMetric"] div{
 
 color:white !important;
 
+}
+div[data-testid="stMetricValue"]{
+    color:white !important;
+}
+
+div[data-testid="stMetricLabel"]{
+    color:#CBD5E1 !important;
 }
 
 /* ---------------- Info Boxes ---------------- */
