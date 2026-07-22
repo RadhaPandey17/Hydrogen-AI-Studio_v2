@@ -774,6 +774,7 @@ elif page == "🔮 Prediction":
                             prediction,
                             st.session_state.feature_importance
                         )
+                        st.session_state.report = report
                         
                       # =====================================================
                       # RESULTS
