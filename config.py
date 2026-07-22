@@ -20,7 +20,7 @@ load_dotenv(PROJECT_ROOT / ".env")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Latest stable Gemini model
-GEMINI_MODEL = "gemini-1.5-flash"
+GEMINI_MODEL = "gemini-2.5-flash"
 # ---------------------------------------------------------
 # DATASETS
 # ---------------------------------------------------------
