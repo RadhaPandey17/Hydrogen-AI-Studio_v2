@@ -101,12 +101,17 @@ class PredictionAgent:
             "leh"
         ]
         for loc in self.global_df["Location"].dropna():
-            location = str(loc).strip()
+            text = str(loc)
             
-            if any(city in location.lower() for city in indian_keywords):
+            if "," in text:
+                country = text.split(",")[-1].strip()
+            else:
+                country = text.strip()
+                
+            if country.lower() in indian_states:
                 continue
                 
-            countries.append(location)
+            countries.append(country)
             
         return sorted(list(set(countries)))
         
@@ -120,11 +125,15 @@ class PredictionAgent:
 
 
     def global_location(self, country):
+        if country is None:
+            
+            return self.global_df.iloc[0].copy()
         for _, row in self.global_df.iterrows():
             location = str(row["Location"])
             if country.lower() in location.lower():
                 return row.copy()
-        return self.global_df.iloc[0].copy()
+                
+            return self.global_df.iloc[0].copy()
 
     # ==========================================================
     # Feature Engineering
