@@ -159,7 +159,7 @@ Write the report using these sections.
 **Longitude**
 
 {prediction["Longitude"]}
-
+a
 **Hydrogen Production**
 
 {prediction["Hydrogen_Output"]:.2f} kg/day
