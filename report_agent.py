@@ -3,18 +3,23 @@ Gemini AI Report Agent
 """
 
 from google import genai
-
-from config import GOOGLE_API_KEY
-from config import GEMINI_MODEL
+from config import GOOGLE_API_KEY, GEMINI_MODEL
 
 
 class ReportAgent:
 
+    # =====================================================
+    # Initialization
+    # =====================================================
+
     def __init__(self):
 
         if GOOGLE_API_KEY is None or GOOGLE_API_KEY == "":
+
             self.client = None
+
         else:
+
             self.client = genai.Client(
                 api_key=GOOGLE_API_KEY
             )
@@ -29,9 +34,9 @@ class ReportAgent:
         feature_importance
     ):
 
-        # -----------------------------
+        # --------------------------------------------------
         # API Key Check
-        # -----------------------------
+        # --------------------------------------------------
 
         if self.client is None:
 
@@ -40,12 +45,12 @@ class ReportAgent:
 
 No Gemini API Key was found.
 
-Please add GOOGLE_API_KEY inside config.py.
+Please configure GOOGLE_API_KEY.
 """
 
-        # -----------------------------
-        # Top Features
-        # -----------------------------
+        # --------------------------------------------------
+        # Feature Importance
+        # --------------------------------------------------
 
         feature_text = ""
 
@@ -56,18 +61,22 @@ Please add GOOGLE_API_KEY inside config.py.
                 f"{round(float(row['Contribution']),2)}%\n"
             )
 
-        # -----------------------------
+        # --------------------------------------------------
         # Prompt
-        # -----------------------------
+        # --------------------------------------------------
 
         prompt = f"""
+You are an expert in
 
-You are an expert in Hydrogen Production,
-Life Cycle Assessment (LCA),
-Machine Learning,
-and Sustainability.
+• Hydrogen Production
 
-Generate a professional report.
+• Life Cycle Assessment (LCA)
+
+• Machine Learning
+
+• Sustainability Assessment
+
+Generate a professional technical report.
 
 --------------------------------------------------
 
@@ -95,38 +104,44 @@ Estimated CO₂ Emission
 
 --------------------------------------------------
 
-Most Important Features
+Important Features
 
 {feature_text}
 
 --------------------------------------------------
 
-Write the report using these sections.
+Generate the following sections.
 
-# Executive Summary
+1. Executive Summary
 
-# Prediction Analysis
+2. Prediction Analysis
 
-# Environmental Impact
+3. Environmental Impact
 
-# Explainable AI Interpretation
+4. Explainable AI Interpretation
 
-# Sustainability Assessment
+5. Sustainability Assessment
 
-# Recommendations
+6. Recommendations
 
-# Conclusion
+7. Conclusion
 
+Write in professional technical language.
 """
 
-        # -----------------------------
-        # Gemini
-        # -----------------------------
+        # --------------------------------------------------
+        # Gemini Generation
+        # --------------------------------------------------
 
         try:
 
+            response = self.client.models.generate_content(
 
-            
+                model=GEMINI_MODEL,
+
+                contents=prompt
+
+            )
 
             if hasattr(response, "text"):
 
@@ -137,35 +152,28 @@ Write the report using these sections.
         except Exception as e:
 
             return f"""
-
 # Gemini Report Generation Failed
 
 ## Reason
 
 {str(e)}
 
----
+--------------------------------------------
 
-## Prediction Summary
+Prediction Summary
 
-**Location**
-
+Location:
 {prediction["Location"]}
 
-**Latitude**
-
+Latitude:
 {prediction["Latitude"]}
 
-**Longitude**
-
+Longitude:
 {prediction["Longitude"]}
-a
-**Hydrogen Production**
 
+Hydrogen Production:
 {prediction["Hydrogen_Output"]:.2f} kg/day
 
-**Estimated CO₂**
-
+Estimated CO₂:
 {prediction["CO2_Emission"]:.2f} kg CO₂-eq/kg H₂
-
 """
