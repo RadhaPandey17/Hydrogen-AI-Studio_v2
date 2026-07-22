@@ -58,37 +58,21 @@ class PredictionAgent:
     def india_default_row(self):
 
         return self.india.iloc[0].copy()
-
-    # ==========================================================
-    # Global Country List
-    # ==========================================================
+        
+    
     def get_global_countries(self):
-
-        countries = set()
-
-        indian_words = {
-            "angul","bokaro","bhuj","kota","bengaluru",
-            "hyderabad","kolkata","chennai","faridabad",
-            "babrala","dahej","vijaynagar","lonavla",
-            "leh","india"
-        }
-
+        india_keywords = ["india","gujarat","maharashtra","odisha","jharkhand","karnataka","telangana","tamil nadu","west bengal","uttar pradesh","punjab",
+                          "rajasthan","haryana","andhra pradesh","madhya pradesh","bihar","chhattisgarh","adityanagar","surat","bhillai","bhavnagar","jind",
+                          "sonipat","northern railway","bokaro","angul","dahej","vijaynagar","babrala","lonavla","leh","bhuj","faridabad","kota","hyderabad",
+                          "bengaluru","kolkata","chennai"]
+        
+        countries = []
         for loc in self.global_df["Location"].dropna():
-
-            text = str(loc)
-
-            if "," in text:
-                country = text.split(",")[-1].strip()
-
-            else:
-                country = text.strip()
-
-            if country.lower() in indian_words:
+            location = str(loc)
+            if any(keyword in location.lower() for keyword in india_keywords):
                 continue
-
-            countries.add(country)
-
-        return sorted(countries)
+            countries.append(location)
+        return sorted(set(countries))
 
     # ==========================================================
     # Selected Global Country
