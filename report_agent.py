@@ -125,13 +125,8 @@ Write the report using these sections.
 
         try:
 
-            response = self.client.models.generate_content(
 
-                model=GEMINI_MODEL,
-
-                contents=prompt
-
-            )
+            
 
             if hasattr(response, "text"):
 
