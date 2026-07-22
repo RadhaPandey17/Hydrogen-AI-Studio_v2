@@ -5,13 +5,12 @@ Configuration File
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
+import streamlit as st
 
-# ---------------------------------------------------------
-
-PROJECT_ROOT = Path(__file__).resolve().parent
-
-load_dotenv(PROJECT_ROOT / ".env")
+try:
+    GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+except Exception:
+    GOOGLE_API_KEY = None
 
 # ---------------------------------------------------------
 # GEMINI
