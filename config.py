@@ -31,8 +31,7 @@ except Exception:
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Recommended Gemini model
-GEMINI_MODEL = "gemini-1.5-flash"
-
+GEMINI_MODEL = "gemini-2.5-flash"
 # ==========================================================
 # DATASETS
 # ==========================================================
