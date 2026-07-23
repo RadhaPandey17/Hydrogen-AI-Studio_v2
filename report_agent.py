@@ -1,11 +1,10 @@
 """
 Gemini AI Report Agent
+Compatible with google-genai >= 2.x
 """
 
 from google import genai
-
-from config import GOOGLE_API_KEY
-from config import GEMINI_MODEL
+from config import GOOGLE_API_KEY, GEMINI_MODEL
 
 
 class ReportAgent:
@@ -13,18 +12,15 @@ class ReportAgent:
     def __init__(self):
 
         if not GOOGLE_API_KEY:
-
             self.client = None
-
         else:
-
             self.client = genai.Client(
                 api_key=GOOGLE_API_KEY
             )
 
-    # =====================================================
-    # Generate Report
-    # =====================================================
+    # ======================================================
+    # Generate AI Report
+    # ======================================================
 
     def generate_report(
         self,
@@ -35,9 +31,9 @@ class ReportAgent:
         if self.client is None:
 
             return """
-# Gemini API Not Configured
+# Gemini API Key Missing
 
-No Gemini API Key found.
+Please configure GOOGLE_API_KEY.
 """
 
         feature_text = ""
@@ -45,77 +41,65 @@ No Gemini API Key found.
         for _, row in feature_importance.head(8).iterrows():
 
             feature_text += (
-
                 f"- {row['Feature']} : "
-
                 f"{round(float(row['Contribution']),2)}%\n"
-
             )
 
         prompt = f"""
-You are a Hydrogen Sustainability Expert.
+You are an expert in Hydrogen Production,
+Life Cycle Assessment,
+Machine Learning,
+and Sustainability.
 
-Generate a professional technical sustainability report.
+Generate a professional technical report.
 
----------------------------------------------------
+------------------------------------------------
 
-Location
+Location:
+{prediction['Location']}
 
-{prediction["Location"]}
+Latitude:
+{prediction['Latitude']}
 
-Latitude
+Longitude:
+{prediction['Longitude']}
 
-{prediction["Latitude"]}
+Hydrogen Production:
+{prediction['Hydrogen_Output']:.2f} kg/day
 
-Longitude
+Estimated CO₂:
+{prediction['CO2_Emission']:.2f} kg CO₂-eq/kg H₂
 
-{prediction["Longitude"]}
-
----------------------------------------------------
-
-Predicted Hydrogen Production
-
-{prediction["Hydrogen_Output"]:.2f} kg/day
-
-Estimated CO₂ Emission
-
-{prediction["CO2_Emission"]:.2f} kg CO₂-eq/kg H₂
-
----------------------------------------------------
+------------------------------------------------
 
 Most Important Features
 
 {feature_text}
 
----------------------------------------------------
+------------------------------------------------
 
-Generate the following sections.
+Write the report with headings:
 
-1. Executive Summary
+# Executive Summary
 
-2. Prediction Analysis
+# Prediction Analysis
 
-3. Environmental Impact
+# Environmental Impact
 
-4. Explainable AI Interpretation
+# Explainable AI Interpretation
 
-5. Sustainability Assessment
+# Sustainability Assessment
 
-6. Recommendations
+# Recommendations
 
-7. Conclusion
-
-Use markdown formatting.
+# Conclusion
 """
 
         try:
 
             response = self.client.models.generate_content(
-
                 model=GEMINI_MODEL,
-
                 contents=prompt
-
             )
 
             return response.text
@@ -129,29 +113,17 @@ Reason
 
 {str(e)}
 
-Model Used
-
-{GEMINI_MODEL}
-
 Prediction Summary
 
-Location
+Location : {prediction['Location']}
 
-{prediction["Location"]}
+Latitude : {prediction['Latitude']}
 
-Latitude
+Longitude : {prediction['Longitude']}
 
-{prediction["Latitude"]}
+Hydrogen Production :
+{prediction['Hydrogen_Output']:.2f} kg/day
 
-Longitude
-
-{prediction["Longitude"]}
-
-Hydrogen Production
-
-{prediction["Hydrogen_Output"]:.2f} kg/day
-
-Estimated CO₂
-
-{prediction["CO2_Emission"]:.2f} kg CO₂-eq/kg H₂
+Estimated CO₂ :
+{prediction['CO2_Emission']:.2f} kg CO₂-eq/kg H₂
 """
