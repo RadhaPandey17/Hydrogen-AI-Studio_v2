@@ -13,6 +13,8 @@ from report_agent import ReportAgent
 from pdf_generator import PDFGenerator
 
 from config import *
+st.sidebar.write("API Loaded:", GOOGLE_API_KEY is not None)
+st.sidebar.write("API Length:", len(GOOGLE_API_KEY) if GOOGLE_API_KEY else 0)
 
 st.set_page_config(
     page_title=APP_NAME,
