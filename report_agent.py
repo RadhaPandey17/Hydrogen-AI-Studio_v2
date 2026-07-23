@@ -1,26 +1,35 @@
 """
 Gemini AI Report Agent
-Compatible with google-genai >= 2.x
 """
 
+from datetime import datetime
 from google import genai
-from config import GOOGLE_API_KEY, GEMINI_MODEL
+
+from config import GOOGLE_API_KEY
+from config import GEMINI_MODEL
 
 
 class ReportAgent:
 
+    # =====================================================
+    # Initialization
+    # =====================================================
+
     def __init__(self):
 
         if not GOOGLE_API_KEY:
+
             self.client = None
+
         else:
+
             self.client = genai.Client(
                 api_key=GOOGLE_API_KEY
             )
 
-    # ======================================================
+    # =====================================================
     # Generate AI Report
-    # ======================================================
+    # =====================================================
 
     def generate_report(
         self,
@@ -31,10 +40,22 @@ class ReportAgent:
         if self.client is None:
 
             return """
-# Gemini API Key Missing
+# Gemini API Not Configured
+
+No Gemini API Key was found.
 
 Please configure GOOGLE_API_KEY.
 """
+
+        # ------------------------------------------------
+        # Today's Date
+        # ------------------------------------------------
+
+        today = datetime.now().strftime("%d %B %Y")
+
+        # ------------------------------------------------
+        # Top Features
+        # ------------------------------------------------
 
         feature_text = ""
 
@@ -45,40 +66,49 @@ Please configure GOOGLE_API_KEY.
                 f"{round(float(row['Contribution']),2)}%\n"
             )
 
+        # ------------------------------------------------
+        # Prompt
+        # ------------------------------------------------
+
         prompt = f"""
-You are an expert in Hydrogen Production,
-Life Cycle Assessment,
-Machine Learning,
-and Sustainability.
+You are a senior Hydrogen Sustainability Expert.
 
 Generate a professional technical report.
+
+IMPORTANT:
+
+• Do NOT invent dates.
+• Do NOT write "Prepared By".
+• Do NOT write "Prepared For".
+• Do NOT create a cover page.
+• Start directly from Executive Summary.
 
 ------------------------------------------------
 
 Location:
-{prediction['Location']}
+{prediction["Location"]}
 
 Latitude:
-{prediction['Latitude']}
+{prediction["Latitude"]}
 
 Longitude:
-{prediction['Longitude']}
+{prediction["Longitude"]}
 
-Hydrogen Production:
-{prediction['Hydrogen_Output']:.2f} kg/day
+Predicted Hydrogen Production:
+{prediction["Hydrogen_Output"]:.2f} kg/day
 
-Estimated CO₂:
-{prediction['CO2_Emission']:.2f} kg CO₂-eq/kg H₂
+Estimated CO₂ Emission:
+{prediction["CO2_Emission"]:.2f} kg CO₂-eq/kg H₂
 
 ------------------------------------------------
 
-Most Important Features
+Top Influencing Features
 
 {feature_text}
 
 ------------------------------------------------
 
-Write the report with headings:
+Generate these sections:
 
 # Executive Summary
 
@@ -93,37 +123,64 @@ Write the report with headings:
 # Recommendations
 
 # Conclusion
+
+Use professional markdown formatting.
 """
+
+        # ------------------------------------------------
+        # Generate Report
+        # ------------------------------------------------
 
         try:
 
             response = self.client.models.generate_content(
+
                 model=GEMINI_MODEL,
+
                 contents=prompt
+
             )
 
-            return response.text
+            report = response.text
+
+            final_report = f"""
+# 🤖 AI Sustainability Report
+
+**Date:** {today}
+
+---
+
+{report}
+"""
+
+            return final_report
 
         except Exception as e:
 
             return f"""
 # Gemini Report Generation Failed
 
-Reason
+## Reason
 
 {str(e)}
 
-Prediction Summary
+---
 
-Location : {prediction['Location']}
+## Model Used
 
-Latitude : {prediction['Latitude']}
+{GEMINI_MODEL}
 
-Longitude : {prediction['Longitude']}
+---
 
-Hydrogen Production :
-{prediction['Hydrogen_Output']:.2f} kg/day
+## Prediction Summary
 
-Estimated CO₂ :
-{prediction['CO2_Emission']:.2f} kg CO₂-eq/kg H₂
+**Location:** {prediction["Location"]}
+
+**Latitude:** {prediction["Latitude"]}
+
+**Longitude:** {prediction["Longitude"]}
+
+**Hydrogen Production:** {prediction["Hydrogen_Output"]:.2f} kg/day
+
+**Estimated CO₂ Emission:** {prediction["CO2_Emission"]:.2f} kg CO₂-eq/kg H₂
 """
